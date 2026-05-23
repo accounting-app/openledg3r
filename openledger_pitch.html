@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenLedger — The Open Agentic General Ledger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0B0F0E;
+      --paper: #F2EFE8;
+      --paper-2: #E8E3D6;
+      --moss: #2E5D3A;
+      /* trust, ledger green */
+      --moss-deep: #173321;
+      --ochre: #D98E2B;
+      /* warning lamp / agent */
+      --ember: #B73E2B;
+      /* alert, debit */
+      --ink-50: rgba(11, 15, 14, 0.5);
+      --ink-20: rgba(11, 15, 14, 0.2);
+      --ink-10: rgba(11, 15, 14, 0.1);
+      --rule: rgba(11, 15, 14, 0.18);
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'Inter Tight', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+    }
+
+    body {
+      font-feature-settings: "ss01", "ss02", "cv11";
+    }
+
+    /* ---- Stage ---- */
+    .stage {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 480ms ease;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .slide.dark {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .slide.moss {
+      background: var(--moss-deep);
+      color: var(--paper);
+    }
+
+    /* ---- Paper grain (the motif) ---- */
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+        radial-gradient(rgba(0, 0, 0, 0.018) 1px, transparent 1px);
+      background-size: 3px 3px, 7px 7px;
+      background-position: 0 0, 1px 2px;
+      mix-blend-mode: multiply;
+      opacity: 0.7;
+    }
+
+    .slide.dark::before,
+    .slide.moss::before {
+      background-image:
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      mix-blend-mode: screen;
+    }
+
+    /* Ledger ruled-paper motif on select slides */
+    .ruled::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(to bottom,
+          transparent 0,
+          transparent 47px,
+          rgba(46, 93, 58, 0.10) 47px,
+          rgba(46, 93, 58, 0.10) 48px);
+    }
+
+    .ruled.dark::after {
+      background-image: repeating-linear-gradient(to bottom,
+          transparent 0,
+          transparent 47px,
+          rgba(242, 239, 232, 0.06) 47px,
+          rgba(242, 239, 232, 0.06) 48px);
+    }
+
+    /* Slide padding wrapper */
+    .pad {
+      position: absolute;
+      inset: 0;
+      padding: 5.5vh 6vw;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    /* ---- Typography ---- */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--moss);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slide.dark .eyebrow,
+    .slide.moss .eyebrow {
+      color: var(--ochre);
+    }
+
+    .eyebrow .dot {
+      width: 7px;
+      height: 7px;
+      background: currentColor;
+      border-radius: 50%;
+    }
+
+    h1.display {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: normal;
+      font-size: clamp(3.2rem, 7.5vw, 7.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      font-variation-settings: "opsz" 144, "SOFT" 50;
+    }
+
+    h1.display em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--moss);
+    }
+
+    .slide.dark h1.display em,
+    .slide.moss h1.display em {
+      color: var(--ochre);
+    }
+
+    h2.section {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+
+    h2.section em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--moss);
+    }
+
+    .slide.dark h2.section em,
+    .slide.moss h2.section em {
+      color: var(--ochre);
+    }
+
+    p.lede {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+      line-height: 1.4;
+      max-width: 56ch;
+      color: var(--ink);
+    }
+
+    .slide.dark p.lede,
+    .slide.moss p.lede {
+      color: var(--paper);
+    }
+
+    p.body {
+      font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+      line-height: 1.55;
+      max-width: 62ch;
+      color: rgba(11, 15, 14, 0.78);
+    }
+
+    .slide.dark p.body,
+    .slide.moss p.body {
+      color: rgba(242, 239, 232, 0.78);
+    }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Chrome ---- */
+    .chrome-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4vh 6vw;
+      z-index: 100;
+      pointer-events: none;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-50);
+      mix-blend-mode: difference;
+      color: #777;
+    }
+
+    .chrome-top .brand {
+      font-weight: 700;
+      color: var(--ochre);
+    }
+
+    .chrome-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4vh 6vw;
+      z-index: 100;
+      pointer-events: none;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #888;
+      mix-blend-mode: difference;
+    }
+
+    .progress {
+      flex: 1;
+      height: 2px;
+      margin: 0 24px;
+      background: rgba(140, 140, 140, 0.18);
+      position: relative;
+      border-radius: 1px;
+      pointer-events: none;
+    }
+
+    .progress>span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: var(--ochre);
+      width: 0%;
+      transition: width 380ms ease;
+    }
+
+    /* ---- Nav ---- */
+    .nav {
+      position: fixed;
+      bottom: 5vh;
+      right: 4vw;
+      display: flex;
+      gap: 10px;
+      z-index: 200;
+    }
+
+    .nav button {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(140, 140, 140, 0.4);
+      background: rgba(11, 15, 14, 0.55);
+      color: var(--paper);
+      font-family: var(--mono);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 180ms ease;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav button:hover {
+      background: var(--ochre);
+      color: var(--ink);
+      border-color: var(--ochre);
+      transform: translateY(-2px);
+    }
+
+    .nav button.menu {
+      width: auto;
+      padding: 0 18px;
+      border-radius: 23px;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ---- Slide 1: Hero ---- */
+    .hero {
+      background: linear-gradient(135deg, #0B0F0E 0%, #173321 65%, #0B0F0E 100%);
+      color: var(--paper);
+    }
+
+    .hero .pad {
+      justify-content: center;
+    }
+
+    .hero h1.display {
+      color: var(--paper);
+      font-size: clamp(3.5rem, 9.5vw, 9rem);
+    }
+
+    .hero .stamp {
+      position: absolute;
+      top: 8vh;
+      right: 6vw;
+      width: clamp(150px, 18vw, 240px);
+      aspect-ratio: 1;
+      border: 1.5px solid var(--ochre);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--ochre);
+      text-align: center;
+      padding: 24px;
+      transform: rotate(-8deg);
+      animation: gentle-rotate 18s linear infinite;
+    }
+
+    .hero .stamp .num {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .hero .stamp .lbl {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .hero .stamp .yr {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      opacity: 0.7;
+      margin-top: 6px;
+      letter-spacing: 0.18em;
+    }
+
+    @keyframes gentle-rotate {
+      from {
+        transform: rotate(-8deg);
+      }
+
+      50% {
+        transform: rotate(-6deg);
+      }
+
+      to {
+        transform: rotate(-8deg);
+      }
+    }
+
+    .hero .sub {
+      margin-top: 3vh;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      color: rgba(242, 239, 232, 0.75);
+      max-width: 50ch;
+    }
+
+    .hero .meta {
+      position: absolute;
+      bottom: 6vh;
+      left: 6vw;
+      right: 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 32px;
+    }
+
+    .hero .meta .col {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: rgba(242, 239, 232, 0.6);
+      letter-spacing: 0.12em;
+    }
+
+    .hero .meta .col strong {
+      display: block;
+      color: var(--ochre);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    /* ---- Generic two-col layout ---- */
+    .two-col {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: flex-start;
+      margin-top: 4vh;
+    }
+
+    .col-left,
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ---- Slide 2: The Bet ---- */
+    .quote-box {
+      border-left: 3px solid var(--moss);
+      padding: 20px 0 20px 28px;
+      margin-top: 2.5vh;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.2rem, 1.8vw, 1.65rem);
+      line-height: 1.4;
+      color: var(--ink);
+      max-width: 62ch;
+    }
+
+    .quote-box cite {
+      display: block;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-style: normal;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--moss);
+      text-transform: uppercase;
+    }
+
+    /* ---- Stat grid ---- */
+    .stat-grid {
+      display: grid;
+      gap: 28px;
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 4vh;
+    }
+
+    .stat {
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+    }
+
+    .slide.dark .stat,
+    .slide.moss .stat {
+      border-top-color: rgba(242, 239, 232, 0.18);
+    }
+
+    .stat .n {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.4rem, 4.8vw, 4.4rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--moss);
+    }
+
+    .slide.dark .stat .n,
+    .slide.moss .stat .n {
+      color: var(--ochre);
+    }
+
+    .stat .n em {
+      font-style: italic;
+    }
+
+    .stat .lbl {
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-50);
+      line-height: 1.4;
+    }
+
+    .slide.dark .stat .lbl,
+    .slide.moss .stat .lbl {
+      color: rgba(242, 239, 232, 0.55);
+    }
+
+    .stat .sub {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--ink-50);
+    }
+
+    .slide.dark .stat .sub,
+    .slide.moss .stat .sub {
+      color: rgba(242, 239, 232, 0.55);
+    }
+
+    /* ---- Architecture diagram (slide) ---- */
+    .arch {
+      margin-top: 3vh;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-family: var(--mono);
+    }
+
+    .layer {
+      border: 1px solid var(--rule);
+      background: rgba(255, 255, 255, 0.4);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: all 200ms ease;
+      cursor: default;
+    }
+
+    .layer:hover {
+      background: rgba(46, 93, 58, 0.06);
+      border-color: var(--moss);
+      transform: translateX(4px);
+    }
+
+    .layer .name {
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .layer .desc {
+      font-size: 0.78rem;
+      color: var(--ink-50);
+      flex: 1;
+      text-align: right;
+    }
+
+    .layer.head {
+      background: var(--moss);
+      color: var(--paper);
+      border-color: var(--moss);
+    }
+
+    .layer.head .desc {
+      color: rgba(242, 239, 232, 0.8);
+    }
+
+    .layer.foundation {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    .layer.foundation .desc {
+      color: rgba(242, 239, 232, 0.7);
+    }
+
+    .layer .tag {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      background: var(--ochre);
+      color: var(--ink);
+      border-radius: 99px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    /* ---- Pillars (3 cards) ---- */
+    .pillars {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 4vh;
+      flex: 1;
+    }
+
+    .pillar {
+      background: rgba(242, 239, 232, 0.04);
+      border: 1px solid rgba(242, 239, 232, 0.18);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 240ms ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar:hover {
+      background: rgba(217, 142, 43, 0.08);
+      border-color: var(--ochre);
+      transform: translateY(-4px);
+    }
+
+    .pillar .num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 2.6rem;
+      color: var(--ochre);
+      line-height: 1;
+    }
+
+    .pillar h3 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.15;
+    }
+
+    .pillar p {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: rgba(242, 239, 232, 0.75);
+    }
+
+    .pillar .tagline {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(242, 239, 232, 0.15);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ochre);
+      letter-spacing: 0.08em;
+    }
+
+    /* ---- Comparison table ---- */
+    .compare {
+      margin-top: 3vh;
+      border-collapse: collapse;
+      width: 100%;
+      font-size: clamp(0.78rem, 0.95vw, 0.95rem);
+    }
+
+    .compare th,
+    .compare td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+
+    .compare th {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-50);
+      font-weight: 500;
+      background: transparent;
+    }
+
+    .compare th:first-child,
+    .compare td:first-child {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--ink);
+      font-size: 1.05rem;
+    }
+
+    .compare .us {
+      background: rgba(46, 93, 58, 0.08);
+      border-left: 3px solid var(--moss);
+      font-weight: 600;
+    }
+
+    .compare .us:first-child {
+      color: var(--moss-deep);
+    }
+
+    .compare .pill {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 99px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+    }
+
+    .compare .pill.no {
+      background: rgba(183, 62, 43, 0.15);
+      color: var(--ember);
+    }
+
+    .compare .pill.yes {
+      background: rgba(46, 93, 58, 0.15);
+      color: var(--moss);
+    }
+
+    .compare .pill.partial {
+      background: rgba(217, 142, 43, 0.2);
+      color: #8B5A1A;
+    }
+
+    /* ---- Demo (interactive transaction) ---- */
+    .demo {
+      flex: 1;
+      margin-top: 3vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .demo-panel {
+      background: rgba(11, 15, 14, 0.92);
+      color: var(--paper);
+      border-radius: 6px;
+      padding: 24px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      min-height: 380px;
+      position: relative;
+    }
+
+    .demo-panel .tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(242, 239, 232, 0.15);
+    }
+
+    .demo-panel .tag-row span {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(242, 239, 232, 0.5);
+      text-transform: uppercase;
+    }
+
+    .demo-panel .tag-row .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ochre);
+      margin-right: 6px;
+      animation: pulse 1.4s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .demo-line {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 320ms ease;
+      margin-bottom: 6px;
+    }
+
+    .demo-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .demo-line .k {
+      color: var(--ochre);
+    }
+
+    .demo-line .v {
+      color: var(--paper);
+    }
+
+    .demo-line .c {
+      color: rgba(242, 239, 232, 0.45);
+    }
+
+    .demo-line .moss {
+      color: #5fb573;
+    }
+
+    .demo-line .red {
+      color: #E8775B;
+    }
+
+    .demo-input {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--rule);
+      padding: 18px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .demo-input label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-50);
+    }
+
+    .demo-input textarea {
+      width: 100%;
+      min-height: 130px;
+      border: none;
+      background: transparent;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      resize: none;
+      outline: none;
+      color: var(--ink);
+    }
+
+    .demo-input .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .demo-input .preset {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      background: var(--paper-2);
+      color: var(--moss-deep);
+      border: none;
+      padding: 6px 10px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+
+    .demo-input .preset:hover {
+      background: var(--moss);
+      color: var(--paper);
+    }
+
+    .demo-input .go {
+      align-self: flex-start;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 12px 22px;
+      border-radius: 99px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .demo-input .go:hover {
+      background: var(--moss);
+      transform: translateX(2px);
+    }
+
+    .demo-input .go::after {
+      content: " →";
+    }
+
+    /* ---- Moat / Roadmap timeline ---- */
+    .timeline {
+      margin-top: 4vh;
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 28px;
+      left: 4%;
+      right: 4%;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .slide.dark .timeline::before,
+    .slide.moss .timeline::before {
+      background: rgba(242, 239, 232, 0.2);
+    }
+
+    .tl-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .tl-item .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--ochre);
+      border: 3px solid var(--paper);
+      z-index: 2;
+      margin-left: 0;
+    }
+
+    .slide.dark .tl-item .dot,
+    .slide.moss .tl-item .dot {
+      border-color: var(--ink);
+    }
+
+    .tl-item .qtr {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      margin-top: 8px;
+    }
+
+    .tl-item .title {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .tl-item .desc {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: rgba(242, 239, 232, 0.75);
+    }
+
+    .slide.light .tl-item .desc {
+      color: rgba(11, 15, 14, 0.7);
+    }
+
+    /* ---- Big closing ---- */
+    .closing {
+      background: linear-gradient(160deg, #173321 0%, #0B0F0E 80%);
+      color: var(--paper);
+    }
+
+    .closing .pad {
+      justify-content: center;
+    }
+
+    .closing h1 {
+      font-size: clamp(3rem, 7.5vw, 7rem);
+      max-width: 18ch;
+    }
+
+    .closing .cta-row {
+      margin-top: 5vh;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .closing .cta {
+      padding: 14px 24px;
+      border-radius: 99px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 200ms ease;
+      border: 1px solid var(--ochre);
+      color: var(--ochre);
+      background: transparent;
+    }
+
+    .closing .cta.primary {
+      background: var(--ochre);
+      color: var(--ink);
+    }
+
+    .closing .cta:hover {
+      transform: translateY(-2px);
+      background: var(--ochre);
+      color: var(--ink);
+    }
+
+    /* ---- Agent fleet (slide 7) ---- */
+    .fleet {
+      margin-top: 3.5vh;
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .agent {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid var(--rule);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 220ms ease;
+      cursor: default;
+    }
+
+    .agent:hover {
+      background: var(--moss-deep);
+      color: var(--paper);
+      border-color: var(--moss-deep);
+    }
+
+    .agent:hover .agent-name {
+      color: var(--ochre);
+    }
+
+    .agent:hover .agent-desc {
+      color: rgba(242, 239, 232, 0.85);
+    }
+
+    .agent:hover .agent-tag {
+      color: rgba(242, 239, 232, 0.5);
+      border-color: rgba(242, 239, 232, 0.3);
+    }
+
+    .agent .agent-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--moss);
+      padding: 3px 8px;
+      border: 1px solid var(--rule);
+      border-radius: 99px;
+      align-self: flex-start;
+    }
+
+    .agent .agent-name {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-style: italic;
+      font-size: 1.35rem;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .agent .agent-desc {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--ink-50);
+    }
+
+    .agent .agent-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--ochre);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* ---- Bus model ---- */
+    .bizmodel {
+      margin-top: 3vh;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .biz-card {
+      background: rgba(11, 15, 14, 0.04);
+      border: 1px solid var(--rule);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .biz-card.highlight {
+      background: var(--moss-deep);
+      color: var(--paper);
+      border-color: var(--moss-deep);
+    }
+
+    .biz-card .label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-50);
+    }
+
+    .biz-card.highlight .label {
+      color: var(--ochre);
+    }
+
+    .biz-card h3 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.15;
+    }
+
+    .biz-card .price {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--moss);
+    }
+
+    .biz-card.highlight .price {
+      color: var(--ochre);
+    }
+
+    .biz-card .price .small {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--ink-50);
+      margin-left: 4px;
+    }
+
+    .biz-card.highlight .price .small {
+      color: rgba(242, 239, 232, 0.6);
+    }
+
+    .biz-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 6px;
+    }
+
+    .biz-card ul li {
+      font-size: 0.88rem;
+      line-height: 1.4;
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .biz-card ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--mono);
+      color: var(--moss);
+      font-weight: 700;
+    }
+
+    .biz-card.highlight ul li::before {
+      color: var(--ochre);
+    }
+
+    .biz-card.highlight ul li {
+      color: rgba(242, 239, 232, 0.85);
+    }
+
+    /* ---- 50 experts grid (slide 4) ---- */
+    .experts {
+      flex: 1;
+      margin-top: 3vh;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: min-content;
+      gap: 6px;
+      align-content: flex-start;
+    }
+
+    .expert {
+      background: rgba(11, 15, 14, 0.04);
+      border: 1px solid var(--rule);
+      padding: 10px 12px;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      color: var(--ink);
+      transition: all 200ms ease;
+      cursor: default;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .expert:hover {
+      background: var(--moss);
+      color: var(--paper);
+      border-color: var(--moss);
+      transform: scale(1.06);
+      z-index: 2;
+      position: relative;
+    }
+
+    .expert .n {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--ochre);
+      margin-right: 8px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ---- Section divider (TOC) ---- */
+    .toc {
+      flex: 1;
+      margin-top: 4vh;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toc-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 24px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      cursor: pointer;
+      align-items: baseline;
+      transition: all 180ms ease;
+    }
+
+    .toc-row:hover {
+      background: rgba(46, 93, 58, 0.05);
+      padding-left: 12px;
+    }
+
+    .toc-row .num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink-50);
+      letter-spacing: 0.1em;
+    }
+
+    .toc-row .ttl {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.2rem, 2.2vw, 2.1rem);
+      line-height: 1.1;
+    }
+
+    .toc-row:hover .ttl {
+      font-style: italic;
+      color: var(--moss);
+    }
+
+    .toc-row .ttl em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--moss);
+    }
+
+    .toc-row .meta {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ink-50);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---- Closing financials slide grid ---- */
+    .why-now {
+      margin-top: 3vh;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 60px;
+    }
+
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .why-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .why-item .badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--ochre);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .why-item h4 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .why-item p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--ink-50);
+    }
+
+    .slide.dark .why-item p,
+    .slide.moss .why-item p {
+      color: rgba(242, 239, 232, 0.75);
+    }
+
+    /* ---- Big number callout ---- */
+    .callout-stat {
+      border: 1px solid var(--rule);
+      padding: 32px;
+      background: rgba(46, 93, 58, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: fit-content;
+      align-self: center;
+    }
+
+    .callout-stat .big {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.95;
+      color: var(--moss);
+      font-style: italic;
+    }
+
+    .callout-stat .lbl {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-50);
+    }
+
+    /* ---- Hint footer ---- */
+    .hint {
+      position: fixed;
+      bottom: 5vh;
+      left: 4vw;
+      z-index: 200;
+      pointer-events: none;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: rgba(140, 140, 140, 0.7);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      mix-blend-mode: difference;
+    }
+
+    .hint kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      border: 1px solid currentColor;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      margin: 0 2px;
+    }
+
+    /* ---- Slide overview overlay ---- */
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(11, 15, 14, 0.96);
+      backdrop-filter: blur(12px);
+      display: none;
+      padding: 6vh 6vw;
+      overflow-y: auto;
+      color: var(--paper);
+    }
+
+    .overview.show {
+      display: block;
+    }
+
+    .overview h2 {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 4vh;
+      color: var(--ochre);
+    }
+
+    .overview .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .overview .card {
+      background: rgba(242, 239, 232, 0.05);
+      border: 1px solid rgba(242, 239, 232, 0.18);
+      padding: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 200ms ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 130px;
+    }
+
+    .overview .card:hover {
+      background: var(--moss);
+      border-color: var(--moss);
+      transform: translateY(-3px);
+    }
+
+    .overview .card .n {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ochre);
+      letter-spacing: 0.1em;
+    }
+
+    .overview .card .t {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.15rem;
+      line-height: 1.15;
+    }
+
+    .overview .card .t em {
+      font-style: italic;
+      color: var(--ochre);
+    }
+
+    .overview .close {
+      position: fixed;
+      top: 3vh;
+      right: 3vw;
+      background: transparent;
+      color: var(--ochre);
+      border: 1px solid var(--ochre);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-family: var(--mono);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* ---- Wave bg slide ---- */
+    .moss-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(217, 142, 43, 0.18), transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(46, 93, 58, 0.4), transparent 50%);
+    }
+
+    /* ---- Reveal animation on slide-active ---- */
+    .slide.active .reveal {
+      animation: rise 720ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .slide.active .reveal-1 {
+      animation-delay: 80ms;
+    }
+
+    .slide.active .reveal-2 {
+      animation-delay: 200ms;
+    }
+
+    .slide.active .reveal-3 {
+      animation-delay: 320ms;
+    }
+
+    .slide.active .reveal-4 {
+      animation-delay: 440ms;
+    }
+
+    .slide.active .reveal-5 {
+      animation-delay: 560ms;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    /* ---- Responsive shim ---- */
+    @media (max-width: 980px) {
+
+      .two-col,
+      .pillars,
+      .timeline,
+      .demo,
+      .fleet,
+      .stat-grid,
+      .bizmodel,
+      .why-now {
+        grid-template-columns: 1fr;
+      }
+
+      .experts {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .overview .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pad {
+        padding: 6vh 6vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="chrome-top">
+    <span><span class="brand">OPEN·LEDGER</span> &nbsp;·&nbsp; PITCH DECK</span>
+    <span>22 MAY 2026</span>
+  </div>
+
+  <div class="chrome-bottom">
+    <span id="slideLabel">01 / 11 — Cover</span>
+    <div class="progress"><span id="progressBar"></span></div>
+    <span>FOR REVIEW</span>
+  </div>
+
+  <div class="hint">
+    <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>O</kbd> overview · <kbd>F</kbd> fullscreen
+  </div>
+
+  <div class="nav">
+    <button class="menu" onclick="toggleOverview()">Slides</button>
+    <button onclick="prev()">‹</button>
+    <button onclick="next()">›</button>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <!-- ============ SLIDE 1 — COVER ============ -->
+    <section class="slide hero active" data-title="Cover">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> SERIES SEED · CONFIDENTIAL</div>
+        <h1 class="display reveal reveal-2" style="margin-top:3vh;">
+          The books<br>
+          should <em>keep themselves.</em>
+        </h1>
+        <div class="sub reveal reveal-3">
+          An open-source, agent-native general ledger built for the world after QuickBooks.
+          Auditable. Self-hosted. MCP-native. Free.
+        </div>
+        <div class="stamp reveal reveal-4">
+          <div class="num"><em>50</em></div>
+          <div class="lbl">expert lenses</div>
+          <div class="yr">v1.0 — 2026</div>
+        </div>
+        <div class="meta reveal reveal-5">
+          <div class="col"><strong>WHAT</strong>OpenLedger — Agentic GL</div>
+          <div class="col"><strong>WHO</strong>Founder · 2026 cohort</div>
+          <div class="col"><strong>WHERE</strong>github.com/openledger</div>
+          <div class="col"><strong>WHY NOW</strong>QBO at $275/mo · MCP at scale</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 2 — TOC ============ -->
+    <section class="slide" data-title="Contents">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CONTENTS</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">A <em>book</em> in eleven pages.</h2>
+        <div class="toc reveal reveal-3">
+          <div class="toc-row" onclick="goTo(2)"><span class="num">II.</span><span class="ttl">The <em>bet</em>: ledgers
+              are software, books are operations</span><span class="meta">3 min</span></div>
+          <div class="toc-row" onclick="goTo(3)"><span class="num">III.</span><span class="ttl">The <em>incumbent</em> &
+              the cracks in QuickBooks</span><span class="meta">4 min</span></div>
+          <div class="toc-row" onclick="goTo(4)"><span class="num">IV.</span><span class="ttl">The <em>fifty</em>: what
+              we asked the experts</span><span class="meta">2 min</span></div>
+          <div class="toc-row" onclick="goTo(5)"><span class="num">V.</span><span class="ttl">The <em>architecture</em>:
+              deterministic core, agentic shell</span><span class="meta">5 min</span></div>
+          <div class="toc-row" onclick="goTo(6)"><span class="num">VI.</span><span class="ttl">The <em>three
+                pillars</em> that make it un-clone-able</span><span class="meta">3 min</span></div>
+          <div class="toc-row" onclick="goTo(7)"><span class="num">VII.</span><span class="ttl">The <em>agent fleet</em>
+              — what they each do</span><span class="meta">4 min</span></div>
+          <div class="toc-row" onclick="goTo(8)"><span class="num">VIII.</span><span class="ttl">A <em>demo</em>: speak
+              a transaction into existence</span><span class="meta">live</span></div>
+          <div class="toc-row" onclick="goTo(9)"><span class="num">IX.</span><span class="ttl">Versus the
+              <em>field</em>: where we win</span><span class="meta">3 min</span></div>
+          <div class="toc-row" onclick="goTo(10)"><span class="num">X.</span><span class="ttl">The <em>business</em> —
+              open core, paid cloud, paid trust</span><span class="meta">3 min</span></div>
+          <div class="toc-row" onclick="goTo(11)"><span class="num">XI.</span><span class="ttl">The
+              <em>ask</em></span><span class="meta">1 min</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 3 — THE BET ============ -->
+    <section class="slide ruled" data-title="The Bet">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER II — THE BET</div>
+        <div class="two-col">
+          <div class="col-left reveal reveal-2">
+            <h2 class="section">The general ledger is now <em>a runtime</em>, not a record.</h2>
+            <p class="lede" style="margin-top:2vh;">
+              For 500 years the ledger was a passive record an accountant wrote into. In 2026 the ledger
+              became something else: a system the <em>business itself runs through</em>. Agents propose journal
+              entries. Vendors stream invoices into AP queues. Banks push transactions in real time.
+            </p>
+            <p class="body" style="margin-top:1.5vh;">
+              QuickBooks figured this out and shipped seven AI agents in eighteen months. They also raised prices
+              83% in six years, locked the agents behind tiers, and tied every customer's books to a closed
+              cloud. The opportunity isn't to <em>copy</em> them. It's to build what an agent-native ledger
+              looks like when nobody owns the rails.
+            </p>
+          </div>
+          <div class="col-right reveal reveal-3">
+            <div class="quote-box">
+              "It doesn't have to get everything right on its own, as long as it knows what things it should ask about."
+              <cite>— Ian Crosby, founder, Bench → Synthetic</cite>
+            </div>
+            <div class="stat-grid" style="margin-top:1vh;">
+              <div class="stat">
+                <div class="n">82<em>%</em></div>
+                <div class="lbl">SMB accounting share held by QuickBooks (2026)</div>
+              </div>
+              <div class="stat">
+                <div class="n">$275</div>
+                <div class="lbl">QBO Advanced — up from $150 in 2020</div>
+              </div>
+              <div class="stat">
+                <div class="n">7</div>
+                <div class="lbl">AI agents inside QuickBooks — all paywalled</div>
+              </div>
+              <div class="stat">
+                <div class="n">6,400+</div>
+                <div class="lbl">MCP servers in the registry (Feb 2026)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 4 — INCUMBENT CRACKS ============ -->
+    <section class="slide dark" data-title="The Incumbent">
+      <div class="moss-bg"></div>
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER III — THE INCUMBENT</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh; color:var(--paper);">
+          QuickBooks has the data.<br>
+          We have <em>everything else.</em>
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:2vh;">
+          Five fault lines we can drive a wedge into — each one a feature QuickBooks structurally cannot ship.
+        </p>
+        <div class="why-now">
+          <div class="why-list reveal reveal-4">
+            <div class="why-item">
+              <div class="badge">i</div>
+              <div>
+                <h4>Their agents are <em>add-ons</em>. Ours is the ledger.</h4>
+                <p>Intuit grafted agents onto a 25-year-old codebase. Agent intelligence sits beside the books, not
+                  inside them. Ours posts directly to the ledger's transaction model.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="badge">ii</div>
+              <div>
+                <h4>Closed cloud + rising prices.</h4>
+                <p>QBO Advanced is $275/mo and rising 12–17% per year. There is no self-host. There is no
+                  export-without-pain. Customer data is hostage to the rails.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="badge">iii</div>
+              <div>
+                <h4>No real MCP surface.</h4>
+                <p>Customers' own agents — Claude, ChatGPT, custom — cannot read QBO data the way they want. Intuit's
+                  interest is to keep them out.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="badge">iv</div>
+              <div>
+                <h4>Accountants are tired of being the platform's hostage.</h4>
+                <p>The QBO Accountant sunset at end of 2026 and the new Intuit Accountant Suite is forcing every firm to
+                  re-platform. The switching cost is already being paid.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="badge">v</div>
+              <div>
+                <h4>Open beats closed when the substrate is models.</h4>
+                <p>An open codebase + open data format means every new model — local, frontier, fine-tuned — improves
+                  the product. Closed competitors are locked to one provider.</p>
+              </div>
+            </div>
+          </div>
+          <div class="callout-stat reveal reveal-5">
+            <div class="lbl">QBO Advanced — 6-year price drift</div>
+            <div class="big">+83<em>%</em></div>
+            <div class="lbl" style="color:rgba(242,239,232,0.6);">$150 → $275 since 2020. Customers are paying for AI
+              they didn't ask to fund.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 5 — THE 50 ============ -->
+    <section class="slide" data-title="The 50 Experts">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER IV — THE METHOD</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          Fifty <em>expert lenses</em> — one ledger.
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:2vh;">
+          We modeled the questions a future-proof open ledger has to answer through fifty disciplines —
+          from forensic auditors to LLM safety researchers to nonprofit treasurers. Hover any tile.
+        </p>
+        <div class="experts reveal reveal-4">
+          <div class="expert"><span class="n">01</span>GL Architecture</div>
+          <div class="expert"><span class="n">02</span>Double-Entry Theory</div>
+          <div class="expert"><span class="n">03</span>GAAP / FASB</div>
+          <div class="expert"><span class="n">04</span>IFRS / IASB</div>
+          <div class="expert"><span class="n">05</span>Audit / SOC 1</div>
+          <div class="expert"><span class="n">06</span>SOC 2 Type II</div>
+          <div class="expert"><span class="n">07</span>Tax — US Multi-state</div>
+          <div class="expert"><span class="n">08</span>Tax — VAT / Intl</div>
+          <div class="expert"><span class="n">09</span>Sales Tax / Avalara</div>
+          <div class="expert"><span class="n">10</span>Payroll Tax</div>
+          <div class="expert"><span class="n">11</span>Bank Feeds / Plaid</div>
+          <div class="expert"><span class="n">12</span>OBP / FDX Standards</div>
+          <div class="expert"><span class="n">13</span>Cash vs Accrual</div>
+          <div class="expert"><span class="n">14</span>Revenue Rec — ASC 606</div>
+          <div class="expert"><span class="n">15</span>Lease — ASC 842</div>
+          <div class="expert"><span class="n">16</span>Inventory / WAC / FIFO</div>
+          <div class="expert"><span class="n">17</span>Multi-Currency / FX</div>
+          <div class="expert"><span class="n">18</span>Multi-Entity Conslidation</div>
+          <div class="expert"><span class="n">19</span>Fund Accounting (Non-Profit)</div>
+          <div class="expert"><span class="n">20</span>Cost Accounting</div>
+          <div class="expert"><span class="n">21</span>Project / Job Costing</div>
+          <div class="expert"><span class="n">22</span>Cash Flow Forecasting</div>
+          <div class="expert"><span class="n">23</span>AP Automation</div>
+          <div class="expert"><span class="n">24</span>AR / Collections</div>
+          <div class="expert"><span class="n">25</span>Fraud Detection</div>
+          <div class="expert"><span class="n">26</span>Forensic Accounting</div>
+          <div class="expert"><span class="n">27</span>Internal Controls / SOX</div>
+          <div class="expert"><span class="n">28</span>Document OCR / IDP</div>
+          <div class="expert"><span class="n">29</span>LLM Safety / Eval</div>
+          <div class="expert"><span class="n">30</span>Agent Orchestration</div>
+          <div class="expert"><span class="n">31</span>MCP Protocol Design</div>
+          <div class="expert"><span class="n">32</span>RAG / Vector Search</div>
+          <div class="expert"><span class="n">33</span>Event-Sourced Systems</div>
+          <div class="expert"><span class="n">34</span>Database — Postgres</div>
+          <div class="expert"><span class="n">35</span>API Design — REST/GraphQL</div>
+          <div class="expert"><span class="n">36</span>Webhooks / Event Bus</div>
+          <div class="expert"><span class="n">37</span>OAuth 2.1 / OIDC</div>
+          <div class="expert"><span class="n">38</span>Zero-Trust Auth</div>
+          <div class="expert"><span class="n">39</span>Encryption at Rest</div>
+          <div class="expert"><span class="n">40</span>Self-Hosting / k8s</div>
+          <div class="expert"><span class="n">41</span>Open-Source Licensing</div>
+          <div class="expert"><span class="n">42</span>OSS Community Ops</div>
+          <div class="expert"><span class="n">43</span>UX — Accountants</div>
+          <div class="expert"><span class="n">44</span>UX — SMB Owners</div>
+          <div class="expert"><span class="n">45</span>Mobile-First Capture</div>
+          <div class="expert"><span class="n">46</span>Reporting / BI</div>
+          <div class="expert"><span class="n">47</span>SMB GTM</div>
+          <div class="expert"><span class="n">48</span>Accountant Channel</div>
+          <div class="expert"><span class="n">49</span>Vertical Specialization</div>
+          <div class="expert"><span class="n">50</span>Migrations from QBO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 6 — ARCHITECTURE ============ -->
+    <section class="slide" data-title="Architecture">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER V — ARCHITECTURE</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          A <em>deterministic core</em>. An <em>agentic shell</em>. Never inverted.
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:1.5vh; max-width:80ch;">
+          The single design rule: LLMs <em>never</em> mutate the ledger directly. They draft proposals.
+          The deterministic core validates, balances, and posts. Hallucination becomes a UX problem, not an audit one.
+        </p>
+        <div class="arch reveal reveal-4">
+          <div class="layer foundation">
+            <span class="name">L0 · IMMUTABLE LEDGER CORE</span>
+            <span class="desc">Append-only journal · double-entry enforced · cryptographic chain · Postgres + event
+              sourcing</span>
+            <span class="tag">CORE</span>
+          </div>
+          <div class="layer">
+            <span class="name">L1 · DOMAIN ENGINE</span>
+            <span class="desc">Chart of accounts · COGS · accruals · multi-currency · tax periods · close cycle ·
+              GAAP/IFRS reporting</span>
+            <span class="tag">CORE</span>
+          </div>
+          <div class="layer">
+            <span class="name">L2 · DATA INGEST</span>
+            <span class="desc">Bank feeds (Plaid/FDX) · OCR (Dext-class) · email parsers · webhook bus · CSV importers ·
+              QBO migrator</span>
+            <span class="tag">CORE</span>
+          </div>
+          <div class="layer">
+            <span class="name">L3 · POLICY & GUARDRAILS</span>
+            <span class="desc">Approval rules · spending limits · segregation of duties · agent permission matrix ·
+              SOX-style controls</span>
+            <span class="tag">CORE</span>
+          </div>
+          <div class="layer head">
+            <span class="name">L4 · MCP SERVER + AGENT FLEET</span>
+            <span class="desc">First-class MCP host · OAuth 2.1 scopes · 7 native agents · BYO model (Claude / GPT /
+              Llama / local)</span>
+            <span class="tag">SHELL</span>
+          </div>
+          <div class="layer head">
+            <span class="name">L5 · INTERFACES</span>
+            <span class="desc">Web app · mobile capture · accountant cockpit · CLI · chat (any LLM via MCP) · embedded
+              for partners</span>
+            <span class="tag">SHELL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 7 — PILLARS ============ -->
+    <section class="slide moss" data-title="Three Pillars">
+      <div class="moss-bg"></div>
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER VI — THE MOAT</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh; color:var(--paper);">
+          Three pillars they <em>can't copy</em>.
+        </h2>
+        <div class="pillars">
+          <div class="pillar reveal reveal-3">
+            <div class="num">i.</div>
+            <h3>Open by license, open by data.</h3>
+            <p>AGPLv3 + commercial dual license. Every journal entry exportable as open JSON-LD. Self-host on your
+              laptop or your cluster. Lock-in is impossible by construction.</p>
+            <p>Accountants and regulators can audit the codebase. No incumbent can match that promise without
+              dismantling their business model.</p>
+            <div class="tagline">Differentiator vs. QBO, Digits, Pilot, Synthetic</div>
+          </div>
+          <div class="pillar reveal reveal-4">
+            <div class="num">ii.</div>
+            <h3>Provable books, not probable ones.</h3>
+            <p>Every agent action is a <em>proposal</em> with a citation trail. The deterministic engine balances debits
+              and credits. Cryptographic hash chain over every entry — tamper-evident by default.</p>
+            <p>An auditor's first question — "show me the audit trail" — gets answered with a git-log-like view that no
+              closed competitor can match.</p>
+            <div class="tagline">Differentiator vs. closed AI bookkeepers</div>
+          </div>
+          <div class="pillar reveal reveal-5">
+            <div class="num">iii.</div>
+            <h3>MCP-native, model-agnostic.</h3>
+            <p>The whole product is an MCP server first. Bring Claude, ChatGPT, Gemini, or a local Llama. Customers' own
+              agents can read, propose, reconcile — under fine-grained OAuth scopes.</p>
+            <p>The 6,400+ MCP server ecosystem becomes our distribution. Every new model release improves OpenLedger
+              automatically.</p>
+            <div class="tagline">Differentiator vs. ERPNext, Odoo, Akaunting</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 8 — AGENT FLEET ============ -->
+    <section class="slide" data-title="Agent Fleet">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER VII — THE FLEET</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          Seven <em>open agents</em>. One ledger. No subscription tier.
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:1.5vh;">
+          QuickBooks gates each agent behind a paywall ranging from Essentials to Advanced. We ship all
+          seven in the open-source core. Differentiation moves to <em>quality of execution</em>, not access.
+        </p>
+        <div class="fleet reveal reveal-4">
+          <div class="agent">
+            <div class="agent-icon">B</div>
+            <div class="agent-tag">books</div>
+            <div class="agent-name">Bookkeeper</div>
+            <div class="agent-desc">Categorizes transactions, proposes journal entries, flags missing context, learns
+              from corrections.</div>
+          </div>
+          <div class="agent">
+            <div class="agent-icon">R</div>
+            <div class="agent-tag">reconcile</div>
+            <div class="agent-name">Reconciler</div>
+            <div class="agent-desc">Three-way matches statements ↔ bank feed ↔ ledger. Explains discrepancies in plain
+              English.</div>
+          </div>
+          <div class="agent">
+            <div class="agent-icon">P</div>
+            <div class="agent-tag">accounts payable</div>
+            <div class="agent-name">Payables</div>
+            <div class="agent-desc">Reads invoices from email, OCRs, drafts bill payments, routes for approval per
+              policy.</div>
+          </div>
+          <div class="agent">
+            <div class="agent-icon">$</div>
+            <div class="agent-tag">accounts receivable</div>
+            <div class="agent-name">Collector</div>
+            <div class="agent-desc">Sends invoices, chases late payers with on-brand reminders, reconciles inbound
+              payments.</div>
+          </div>
+          <div class="agent">
+            <div class="agent-icon">T</div>
+            <div class="agent-tag">tax</div>
+            <div class="agent-name">Tax Counsel</div>
+            <div class="agent-desc">Tracks nexus, computes sales/VAT, drafts filings, surfaces deduction opportunities
+              mid-quarter.</div>
+          </div>
+          <div class="agent">
+            <div class="agent-icon">A</div>
+            <div class="agent-tag">audit</div>
+            <div class="agent-name">Auditor</div>
+            <div class="agent-desc">Continuous anomaly detection — Benford's law, unusual vendor patterns, suspicious
+              round numbers.</div>
+          </div>
+          <div class="agent" style="grid-column: span 3;">
+            <div class="agent-icon">C</div>
+            <div class="agent-tag">close · finance</div>
+            <div class="agent-name">Closer — coordinates the rest at month-end.</div>
+            <div class="agent-desc">Orchestrates the month-end close: queues accruals, prompts the reconciler, prepares
+              the management pack, drafts the variance commentary. The agent every CFO has been trying to hire.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 9 — DEMO ============ -->
+    <section class="slide" data-title="Live Demo">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER VIII — INTERACTIVE DEMO</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          Speak a transaction. <em>Watch it post.</em>
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:1vh;">
+          Type a transaction in plain English. Our Bookkeeper agent will propose journal entries — and the
+          deterministic core will validate them. This is the actual flow, locally simulated.
+        </p>
+        <div class="demo reveal reveal-4">
+          <div class="demo-input">
+            <label>Describe a transaction</label>
+            <textarea id="demoInput"
+              placeholder="e.g. Paid AWS $487.22 from Chase ending 4421 for May infra…">Paid AWS $487.22 from Chase business checking ending 4421 — this was May production infra for the SaaS product.</textarea>
+            <div class="preset-row">
+              <button class="preset" onclick="loadPreset(0)">AWS bill</button>
+              <button class="preset" onclick="loadPreset(1)">Client invoice paid</button>
+              <button class="preset" onclick="loadPreset(2)">Payroll run</button>
+              <button class="preset" onclick="loadPreset(3)">Cash from sale</button>
+              <button class="preset" onclick="loadPreset(4)">Equipment purchase</button>
+            </div>
+            <button class="go" onclick="runDemo()">Post to ledger</button>
+          </div>
+          <div class="demo-panel" id="demoPanel">
+            <div class="tag-row">
+              <span><span class="dot"></span>BOOKKEEPER AGENT · IDLE</span>
+              <span id="demoStatus">awaiting input</span>
+            </div>
+            <div id="demoOutput">
+              <div class="demo-line show"><span class="c">// agent inactive — type a transaction and press post</span>
+              </div>
+              <div class="demo-line show"><span class="c">// the ledger will validate the proposal before it
+                  commits</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 10 — COMPETITION ============ -->
+    <section class="slide" data-title="Competitive">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER IX — THE FIELD</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          Open <em>or</em> agentic. <em>Never both.</em>
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:1vh;">
+          The competitive landscape sorts cleanly along two axes: openness and agentic depth. The upper-right is empty.
+        </p>
+        <table class="compare reveal reveal-4">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Open Source</th>
+              <th>Agentic AI</th>
+              <th>MCP-Native</th>
+              <th>Self-Host</th>
+              <th>Audit Trail</th>
+              <th>Price (1 user)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="us">
+              <td>OpenLedger</td>
+              <td><span class="pill yes">AGPL+Commercial</span></td>
+              <td><span class="pill yes">7 agents</span></td>
+              <td><span class="pill yes">First-class</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td><span class="pill yes">Cryptographic</span></td>
+              <td><strong>$0 OSS / $29 cloud</strong></td>
+            </tr>
+            <tr>
+              <td>QuickBooks Online</td>
+              <td><span class="pill no">Closed</span></td>
+              <td><span class="pill yes">7 agents (paywall)</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill partial">App-level</span></td>
+              <td>$38–$275</td>
+            </tr>
+            <tr>
+              <td>Digits (AGL)</td>
+              <td><span class="pill no">Closed</span></td>
+              <td><span class="pill yes">Autonomous GL</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill partial">App-level</span></td>
+              <td>Bundled w/ svc</td>
+            </tr>
+            <tr>
+              <td>Pilot / Synthetic</td>
+              <td><span class="pill no">Closed</span></td>
+              <td><span class="pill yes">Autonomous</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill partial">App-level</span></td>
+              <td>Service pricing</td>
+            </tr>
+            <tr>
+              <td>Xero</td>
+              <td><span class="pill no">Closed</span></td>
+              <td><span class="pill partial">Copilot only</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill partial">App-level</span></td>
+              <td>$15–$78</td>
+            </tr>
+            <tr>
+              <td>Odoo Accounting</td>
+              <td><span class="pill yes">LGPL</span></td>
+              <td><span class="pill no">None</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td>$0 / €31+</td>
+            </tr>
+            <tr>
+              <td>ERPNext</td>
+              <td><span class="pill yes">GPLv3</span></td>
+              <td><span class="pill no">None</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td>$0 / $50</td>
+            </tr>
+            <tr>
+              <td>Akaunting</td>
+              <td><span class="pill yes">GPLv3</span></td>
+              <td><span class="pill no">None</span></td>
+              <td><span class="pill no">No</span></td>
+              <td><span class="pill yes">Yes</span></td>
+              <td><span class="pill partial">Basic</span></td>
+              <td>$0 / $9+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 11 — BUSINESS MODEL ============ -->
+    <section class="slide ruled" data-title="Business Model">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER X — BUSINESS MODEL</div>
+        <h2 class="section reveal reveal-2" style="margin-top:2vh;">
+          Open core. Paid <em>cloud</em>. Paid <em>trust</em>.
+        </h2>
+        <p class="lede reveal reveal-3" style="margin-top:1vh;">
+          Three revenue streams, each defensible by something other than feature gating.
+        </p>
+        <div class="bizmodel">
+          <div class="biz-card reveal reveal-4">
+            <span class="label">Tier 01 · OpenLedger Community</span>
+            <h3>The whole product, self-hosted, forever.</h3>
+            <div class="price">Free<span class="small">/ forever</span></div>
+            <ul>
+              <li>Full ledger, all 7 agents, MCP server, mobile capture</li>
+              <li>Connect any LLM you own — bring your own keys</li>
+              <li>Single-tenant Docker / k8s · run on your hardware</li>
+              <li>AGPLv3 — share improvements back if you SaaS it</li>
+            </ul>
+          </div>
+          <div class="biz-card highlight reveal reveal-5">
+            <span class="label">Tier 02 · OpenLedger Cloud</span>
+            <h3>Managed, scaled, with the models included.</h3>
+            <div class="price">$29<span class="small">/ entity / mo</span></div>
+            <ul>
+              <li>Hosted MCP host, frontier model included</li>
+              <li>Bank feeds, e-filing, payroll partners pre-wired</li>
+              <li>SOC 2 Type II inherited from us</li>
+              <li>Multi-entity, multi-currency, unlimited users</li>
+            </ul>
+          </div>
+          <div class="biz-card reveal reveal-5" style="grid-column: span 2;">
+            <span class="label">Tier 03 · OpenLedger Trust — for accountants & regulated entities</span>
+            <h3>Audit-grade compliance, vertical packs, accountant cockpit.</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top:8px;">
+              <div><strong style="font-family:var(--serif); font-style:italic; font-size:1.1rem;">For firms</strong>
+                <p style="font-size:0.85rem; margin-top:4px; line-height:1.4; color:var(--ink-50);">Multi-client
+                  cockpit. Bulk close. Workpapers export. ProAdvisor-style channel.</p>
+              </div>
+              <div><strong style="font-family:var(--serif); font-style:italic; font-size:1.1rem;">For verticals</strong>
+                <p style="font-size:0.85rem; margin-top:4px; line-height:1.4; color:var(--ink-50);">Construction /
+                  non-profit / e-comm / SaaS metric packs. Built once, shared open.</p>
+              </div>
+              <div><strong style="font-family:var(--serif); font-style:italic; font-size:1.1rem;">For regulated</strong>
+                <p style="font-size:0.85rem; margin-top:4px; line-height:1.4; color:var(--ink-50);">SOC 1 attestation.
+                  GAAP/IFRS reporting packs. SOX control templates.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 12 — CLOSING / ASK ============ -->
+    <section class="slide closing" data-title="The Ask">
+      <div class="pad">
+        <div class="eyebrow reveal reveal-1"><span class="dot"></span> CHAPTER XI — THE ASK</div>
+        <h1 class="display reveal reveal-2" style="margin-top:3vh;">
+          Help us build the <em>open</em> ledger every accountant is waiting for.
+        </h1>
+        <p class="lede reveal reveal-3" style="margin-top:3vh; color:rgba(242,239,232,0.85); max-width:60ch;">
+          We're raising a $3M seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
+          and convert 250 accounting firms onto OpenLedger Cloud. The 18-month plan ↓
+        </p>
+        <div class="timeline reveal reveal-4">
+          <div class="tl-item">
+            <div class="dot"></div>
+            <div class="qtr">Q3 2026</div>
+            <div class="title">v0.5 · public beta</div>
+            <div class="desc">Core ledger, Bookkeeper + Reconciler agents, QBO migration tool, Plaid feeds.</div>
+          </div>
+          <div class="tl-item">
+            <div class="dot"></div>
+            <div class="qtr">Q4 2026</div>
+            <div class="title">v1.0 · GA</div>
+            <div class="desc">Full agent fleet, SOC 2 Type I, Cloud launch, accountant cockpit beta.</div>
+          </div>
+          <div class="tl-item">
+            <div class="dot"></div>
+            <div class="qtr">Q2 2027</div>
+            <div class="title">v1.5 · vertical packs</div>
+            <div class="desc">Non-profit fund accounting, construction job costing, multi-entity consolidation.</div>
+          </div>
+          <div class="tl-item">
+            <div class="dot"></div>
+            <div class="qtr">Q4 2027</div>
+            <div class="title">v2.0 · Trust tier</div>
+            <div class="desc">SOC 2 Type II + SOC 1, GAAP/IFRS attestation, 1,000 firms on Cloud.</div>
+          </div>
+        </div>
+        <div class="cta-row reveal reveal-5">
+          <button class="cta primary" onclick="goTo(0)">Restart the deck</button>
+          <button class="cta" onclick="toggleOverview()">See all slides</button>
+          <button class="cta" onclick="goTo(8)">Run the demo again</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ OVERVIEW OVERLAY ============ -->
+  <div class="overview" id="overview">
+    <button class="close" onclick="toggleOverview()">×</button>
+    <h2>Eleven chapters · one ledger.</h2>
+    <div class="grid" id="overviewGrid"></div>
+  </div>
+
+  <script>
+    // ----- Slide engine -----
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const total = slides.length;
+
+    function showSlide(idx) {
+      current = (idx + total) % total;
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      const pct = ((current + 1) / total) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      const titles = Array.from(slides).map(s => s.dataset.title);
+      const num = String(current + 1).padStart(2, '0');
+      const totalNum = String(total).padStart(2, '0');
+      document.getElementById('slideLabel').textContent = `${num} / ${totalNum} — ${titles[current]}`;
+    }
+    function next() { showSlide(current + 1); }
+    function prev() { showSlide(current - 1); }
+    function goTo(idx) {
+      document.getElementById('overview').classList.remove('show');
+      showSlide(idx);
+    }
+
+    // ----- Keyboard -----
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { next(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { prev(); e.preventDefault(); }
+      if (e.key === 'Home') showSlide(0);
+      if (e.key === 'End') showSlide(total - 1);
+      if (e.key === 'o' || e.key === 'O') toggleOverview();
+      if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+        else document.exitFullscreen();
+      }
+      if (e.key === 'Escape') document.getElementById('overview').classList.remove('show');
+    });
+
+    // ----- Touch swipe -----
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
+    });
+
+    // ----- Overview -----
+    function toggleOverview() {
+      const ov = document.getElementById('overview');
+      ov.classList.toggle('show');
+    }
+    const grid = document.getElementById('overviewGrid');
+    slides.forEach((s, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => goTo(i);
+      card.innerHTML = `<div class="n">${String(i + 1).padStart(2, '0')}</div><div class="t">${s.dataset.title}</div>`;
+      grid.appendChild(card);
+    });
+
+    // ----- Interactive demo -----
+    const presets = [
+      "Paid AWS $487.22 from Chase business checking ending 4421 — this was May production infra for the SaaS product.",
+      "Acme Corp paid invoice #1042 for $12,500 via wire to our Mercury account. It was for the March consulting engagement.",
+      "Ran payroll for 6 employees today. Total gross $42,800, employer taxes $3,275, net $33,914 paid via Gusto.",
+      "Cash sale at the storefront for $156.40 plus $12.78 sales tax. Customer paid by Stripe terminal.",
+      "Bought a MacBook Pro for $3,499 on the Amex for the new designer. Will use it 3+ years."
+    ];
+
+    const responses = [
+      {
+        intent: "expense / SaaS infrastructure",
+        proposals: [
+          { dr: "6210 · Cloud Infrastructure", amount: 487.22, ev: "vendor: AWS · category from 47 prior matches · 99.4% conf" },
+          { cr: "1020 · Chase Business Checking (••4421)", amount: 487.22, ev: "bank-feed match: txn id PLD-2026-05-21-3389" }
+        ],
+        flags: [],
+        tax: "deductible — Section 162 ordinary & necessary business expense"
+      },
+      {
+        intent: "AR settlement · customer payment",
+        proposals: [
+          { dr: "1010 · Mercury Operating", amount: 12500.00, ev: "wire matched to inbound feed · ref: ACME-1042" },
+          { cr: "1200 · Accounts Receivable — Acme Corp", amount: 12500.00, ev: "invoice #1042 marked paid · 31 days outstanding" }
+        ],
+        flags: ["DSO improved 4 days vs Acme rolling 90d avg"],
+        tax: "no current tax event — accrual recognized at invoice date"
+      },
+      {
+        intent: "payroll run · multi-account",
+        proposals: [
+          { dr: "5100 · Salaries & Wages", amount: 42800.00, ev: "Gusto export · 6 employees · pay period 2026-05-15" },
+          { dr: "5110 · Employer Payroll Tax", amount: 3275.00, ev: "FICA 7.65% + FUTA + state UI" },
+          { cr: "2100 · Payroll Liabilities", amount: 8886.00, ev: "EE+ER taxes withheld pending IRS deposit" },
+          { cr: "1010 · Mercury Operating", amount: 33914.00, ev: "net pay wired via Gusto" },
+          { cr: "1010 · Mercury Operating", amount: 3275.00, ev: "employer tax sweep" }
+        ],
+        flags: ["941 deposit due 2026-06-15 — scheduled"],
+        tax: "wages deductible · withholding flows to Form 941"
+      },
+      {
+        intent: "POS sale · sales tax liability",
+        proposals: [
+          { dr: "1030 · Stripe Pending", amount: 169.18, ev: "terminal txn · authorization captured" },
+          { cr: "4010 · Sales Revenue", amount: 156.40, ev: "single-item POS sale" },
+          { cr: "2200 · Sales Tax Payable", amount: 12.78, ev: "NYC 8.875% · nexus confirmed" }
+        ],
+        flags: [],
+        tax: "remit to NYSDTF · quarterly filing due 2026-07-20"
+      },
+      {
+        intent: "fixed asset · capitalization",
+        proposals: [
+          { dr: "1500 · Office Equipment", amount: 3499.00, ev: "useful life ≥ 1yr · capitalization threshold met" },
+          { cr: "2300 · Amex Business CC", amount: 3499.00, ev: "card feed match · txn pending settlement" }
+        ],
+        flags: ["Section 179 / bonus depreciation eligible — Tax Counsel will flag at year-end"],
+        tax: "depreciate over 5 years MACRS · or elect §179 full expense"
+      }
+    ];
+
+    function loadPreset(i) {
+      document.getElementById('demoInput').value = presets[i];
+    }
+
+    function runDemo() {
+      const input = document.getElementById('demoInput').value.trim();
+      const panel = document.getElementById('demoOutput');
+      const statusEl = document.getElementById('demoStatus');
+      panel.innerHTML = '';
+      statusEl.textContent = 'parsing intent…';
+
+      // crude matcher
+      let respIdx = 0;
+      const lower = input.toLowerCase();
+      if (lower.includes('aws') || lower.includes('infra') || lower.includes('saas') || lower.includes('cloud')) respIdx = 0;
+      else if (lower.includes('paid invoice') || lower.includes('client') || lower.includes('wire') || lower.includes('customer paid')) respIdx = 1;
+      else if (lower.includes('payroll') || lower.includes('gusto') || lower.includes('employee')) respIdx = 2;
+      else if (lower.includes('sale') || lower.includes('storefront') || lower.includes('stripe terminal') || lower.includes('cash sale')) respIdx = 3;
+      else if (lower.includes('macbook') || lower.includes('equipment') || lower.includes('laptop') || lower.includes('amex') || lower.includes('bought')) respIdx = 4;
+      else respIdx = Math.floor(Math.random() * responses.length);
+
+      const r = responses[respIdx];
+      const lines = [];
+      lines.push(['c', '// parsing transaction…']);
+      lines.push(['k', 'intent: ', 'v', r.intent]);
+      lines.push(['c', '']);
+      lines.push(['c', '// proposing journal entries']);
+      let totalDr = 0, totalCr = 0;
+      r.proposals.forEach(p => {
+        if (p.dr) {
+          totalDr += p.amount;
+          lines.push(['moss', 'DR ', 'v', `${p.dr.padEnd(38).slice(0, 38)} `, 'k', `$${p.amount.toFixed(2)}`]);
+          if (p.ev) lines.push(['c', `   └─ ${p.ev}`]);
+        } else if (p.cr) {
+          totalCr += p.amount;
+          lines.push(['red', 'CR ', 'v', `${p.cr.padEnd(38).slice(0, 38)} `, 'k', `$${p.amount.toFixed(2)}`]);
+          if (p.ev) lines.push(['c', `   └─ ${p.ev}`]);
+        }
+      });
+      lines.push(['c', '']);
+      lines.push(['c', '// deterministic core: balancing check']);
+      const balanced = Math.abs(totalDr - totalCr) < 0.01;
+      lines.push(['k', 'sum_debits  ', 'v', `$${totalDr.toFixed(2)}`]);
+      lines.push(['k', 'sum_credits ', 'v', `$${totalCr.toFixed(2)}`]);
+      lines.push([balanced ? 'moss' : 'red', balanced ? '✓ balanced — posting to ledger' : '✗ unbalanced — rejected', 'c', '']);
+      if (r.flags.length) {
+        lines.push(['c', '']);
+        lines.push(['c', '// auditor agent notes']);
+        r.flags.forEach(f => lines.push(['k', '⚑ ', 'v', f]));
+      }
+      lines.push(['c', '']);
+      lines.push(['c', `// tax counsel: ${r.tax}`]);
+      lines.push(['c', '']);
+      lines.push(['moss', '◉ committed', 'v', '  entry_id=' + Math.random().toString(36).slice(2, 11).toUpperCase() + '  hash=' + Math.random().toString(36).slice(2, 10)]);
+
+      // Render with stagger
+      lines.forEach((parts, i) => {
+        const div = document.createElement('div');
+        div.className = 'demo-line';
+        let html = '';
+        for (let j = 0; j < parts.length; j += 2) {
+          html += `<span class="${parts[j]}">${escapeHtml(parts[j + 1] || '')}</span>`;
+        }
+        div.innerHTML = html || '&nbsp;';
+        panel.appendChild(div);
+        setTimeout(() => div.classList.add('show'), 110 + i * 65);
+      });
+      setTimeout(() => statusEl.textContent = 'committed · ' + new Date().toLocaleTimeString(), 120 + lines.length * 65);
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    // boot
+    showSlide(0);
+  </script>
+
+</body>
+
+</html>
