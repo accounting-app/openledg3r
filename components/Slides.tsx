@@ -197,7 +197,7 @@ export function Slides({
                   <div className="callout-stat reveal reveal-5">
                     <div className="lbl">QBO Advanced — 6-year price drift</div>
                     <div className="big">+83<em>%</em></div>
-                    <div className="lbl" style={{ color: 'rgba(242,239,232,0.6)' }}>$150 → $275 since 2020. Customers are paying for AI
+                    <div className="lbl" style={{ color: 'rgba(253,244,247,0.6)' }}>$150 → $275 since 2020. Customers are paying for AI
                       they didn't ask to fund.</div>
                   </div>
                 </div>
@@ -663,7 +663,7 @@ export function Slides({
                 <h1 className="display reveal reveal-2" style={{ marginTop: '3vh' }}>
                   Help us build the <em>open</em> ledger every accountant is waiting for.
                 </h1>
-                <p className="lede reveal reveal-3" style={{ marginTop: '3vh', color: 'rgba(242,239,232,0.85)', maxWidth: '60ch' }}>
+                <p className="lede reveal reveal-3" style={{ marginTop: '3vh', color: 'rgba(253,244,247,0.85)', maxWidth: '60ch' }}>
                   We're raising a $3M seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
                   and convert 250 accounting firms onto OpenLedger Cloud. The 18-month plan ↓
                 </p>

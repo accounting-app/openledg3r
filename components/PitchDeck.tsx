@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Logo } from "@/components/Logo";
 import { Slides, SLIDE_TITLES } from "@/components/Slides";
 import { buildDemoLines, DEMO_PRESETS, type DemoLine } from "@/lib/demo";
 import {
@@ -147,10 +148,14 @@ export function PitchDeck() {
 
   return (
     <>
-      <div className="chrome-top">
+      <div className="chrome-brand">
+        <Logo className="brand-logo" variant="full" />
         <span>
           <span className="brand">OPEN·LEDGER</span> &nbsp;·&nbsp; PITCH DECK
         </span>
+      </div>
+
+      <div className="chrome-top">
         <span>22 MAY 2026</span>
       </div>
 
