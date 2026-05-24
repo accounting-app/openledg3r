@@ -174,7 +174,7 @@ export function PitchDeck() {
   return (
     <>
       <div className="chrome-brand">
-        <Logo className="brand-logo" variant="full" />
+        {/* <Logo className="brand-logo" variant="full" /> */}
         <span className="chrome-brand-text">
           <span className="brand">OPEN·LEDGER</span>
           <span className="chrome-brand-extra"> · PITCH DECK</span>

@@ -39,8 +39,10 @@ export function Slides({
                   should <em>keep themselves.</em>
                 </h1>
                 <div className="sub reveal reveal-3">
-                  An open-source, agent-native general ledger built for the world after QuickBooks.
-                  Auditable. Self-hosted. MCP-native. Free.
+                  The general ledger <em>of the accountants, by the accountants, for the accountants.</em>{' '}
+                  Open-source, agent-native, built for the world after QuickBooks.
+                  Auditable. Self-hosted. MCP-native. Free. Governed by a US accountant community
+                  foundation—not a vendor.
                 </div>
                 <div className="stamp reveal reveal-4">
                   <div className="num"><em>50</em></div>
@@ -49,7 +51,7 @@ export function Slides({
                 </div>
                 <div className="meta reveal reveal-5">
                   <div className="col"><strong>WHAT</strong>OpenLedger — Agentic GL</div>
-                  <div className="col"><strong>WHO</strong>Founder · 2026 cohort</div>
+                  <div className="col"><strong>WHO</strong>Founding team · US accountant foundation</div>
                   <div className="col"><strong>WHERE</strong>github.com/openledger</div>
                   <div className="col"><strong>WHY NOW</strong>QBO at $275/mo · MCP at scale</div>
                 </div>
@@ -105,8 +107,10 @@ export function Slides({
                     <p className="body" style={{ marginTop: '1.5vh' }}>
                       QuickBooks figured this out and shipped seven AI agents in eighteen months. They also raised prices
                       83% in six years, locked the agents behind tiers, and tied every customer's books to a closed
-                      cloud. The opportunity isn't to <em>copy</em> them. It's to build what an agent-native ledger
-                      looks like when nobody owns the rails.
+                      cloud. The opportunity isn't to <em>copy</em> them. It's to build the general ledger of the
+                      accountants, by the accountants, for the accountants — when nobody owns the rails and the{' '}
+                      <em>profession</em> owns governance: standards, roadmap, and trademark policy through a US
+                      accountant community foundation, not a vendor cap table.
                     </p>
                   </div>
                   <div className="col-right reveal reveal-3">
@@ -344,6 +348,10 @@ export function Slides({
                       laptop or your cluster. Lock-in is impossible by construction.</p>
                     <p>Accountants and regulators can audit the codebase. No incumbent can match that promise without
                       dismantling their business model.</p>
+                    <p>Of the accountants, by the accountants, for the accountants: the OpenLedger Foundation is
+                      accountable to a council of US accounting practitioners and firm leaders — they set COA packs,
+                      audit policies, and release priorities. An operating company ships Cloud and Trust under charter;
+                      execution without capture.</p>
                     <div className="tagline">Differentiator vs. QBO, Digits, Pilot, Synthetic</div>
                   </div>
                   <div className="pillar reveal reveal-4">
@@ -613,7 +621,7 @@ export function Slides({
                 </p>
                 <div className="bizmodel">
                   <div className="biz-card reveal reveal-4">
-                    <span className="label">Tier 01 · OpenLedger Community</span>
+                    <span className="label">Tier 01 · Self-Hosted Edition</span>
                     <h3>The whole product, self-hosted, forever.</h3>
                     <div className="price">Free<span className="small">/ forever</span></div>
                     <ul>
@@ -622,6 +630,10 @@ export function Slides({
                       <li>Single-tenant Docker / k8s · run on your hardware</li>
                       <li>AGPLv3 — share improvements back if you SaaS it</li>
                     </ul>
+                    <p style={{ fontSize: '0.8rem', marginTop: '10px', lineHeight: '1.45', color: 'var(--ink-50)' }}>
+                      A product tier, not governance. Ownership and standards sit with the OpenLedger Foundation —
+                      council-elected by US accountants.
+                    </p>
                   </div>
                   <div className="biz-card highlight reveal reveal-5">
                     <span className="label">Tier 02 · OpenLedger Cloud</span>
@@ -663,11 +675,13 @@ export function Slides({
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER XI — THE ASK</div>
                 <h1 className="display reveal reveal-2" style={{ marginTop: '3vh' }}>
-                  Help us build the <em>open</em> ledger every accountant is waiting for.
+                  The general ledger<br />
+                  <em>of the accountants, by the accountants, for the accountants.</em>
                 </h1>
                 <p className="lede reveal reveal-3" style={{ marginTop: '3vh', color: 'rgba(253,244,247,0.85)', maxWidth: '60ch' }}>
-                  We're raising a $3M seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
-                  and convert 250 accounting firms onto OpenLedger Cloud. The 18-month plan ↓
+                  Help us ship it. We're raising a $3M seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
+                  and convert 250 accounting firms onto OpenLedger Cloud. Seed capital funds execution;
+                  governance stays with the US accountant community foundation. The 18-month plan ↓
                 </p>
                 <div className="timeline reveal reveal-4">
                   <div className="tl-item">
