@@ -198,35 +198,39 @@ export function PitchDeck() {
         <span>FOR REVIEW</span>
       </div>
 
-      <div className="hint">
-        <kbd>←</kbd>
-        <kbd>→</kbd> navigate · <kbd>O</kbd> overview · <kbd>F</kbd> fullscreen
-      </div>
+      <div className="deck-frame">
+        <div className="stage" id="stage">
+          <Slides
+            slideClass={slideClass}
+            goTo={goTo}
+            loadPreset={loadPreset}
+            runDemo={runDemo}
+            toggleOverview={toggleOverview}
+            demoInputRef={demoInputRef}
+            demoPanelRef={demoPanelRef}
+            demoStatus={demoStatus}
+            demoLines={demoLines}
+          />
+        </div>
 
-      <div className="nav">
-        <button type="button" className="menu" onClick={toggleOverview}>
-          Slides
-        </button>
-        <button type="button" onClick={prev}>
-          ‹
-        </button>
-        <button type="button" onClick={next}>
-          ›
-        </button>
-      </div>
+        <div className="stage-footer">
+          <div className="hint">
+            <kbd>←</kbd>
+            <kbd>→</kbd> navigate · <kbd>O</kbd> overview · <kbd>F</kbd> fullscreen
+          </div>
 
-      <div className="stage" id="stage">
-        <Slides
-          slideClass={slideClass}
-          goTo={goTo}
-          loadPreset={loadPreset}
-          runDemo={runDemo}
-          toggleOverview={toggleOverview}
-          demoInputRef={demoInputRef}
-          demoPanelRef={demoPanelRef}
-          demoStatus={demoStatus}
-          demoLines={demoLines}
-        />
+          <div className="nav">
+            <button type="button" className="menu" onClick={toggleOverview}>
+              Slides
+            </button>
+            <button type="button" onClick={prev}>
+              ‹
+            </button>
+            <button type="button" onClick={next}>
+              ›
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className={`overview${overviewOpen ? " show" : ""}`} id="overview">
