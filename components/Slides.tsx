@@ -44,11 +44,11 @@ export function Slides({
                   Auditable. Self-hosted. MCP-native. Free. Governed by a US accountant community
                   foundation—not a vendor.
                 </div>
-                <div className="stamp reveal reveal-4">
+                {/* <div className="stamp reveal reveal-4">
                   <div className="num"><em>50</em></div>
                   <div className="lbl">expert lenses</div>
                   <div className="yr">v1.0 — 2026</div>
-                </div>
+                </div> */}
                 <div className="meta reveal reveal-5">
                   <div className="col"><strong>WHAT</strong>OpenLedger — Agentic GL</div>
                   <div className="col"><strong>WHO</strong>Founding team · US accountant foundation</div>
@@ -451,10 +451,10 @@ export function Slides({
       >
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER V — INTERACTIVE DEMO</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
                   Speak a transaction. <em>Watch it post.</em>
                 </h2>
-                <p className="lede reveal reveal-3" style={{ marginTop: '1vh' }}>
+                <p className="lede reveal reveal-3" style={{ marginTop: '0.6vh', fontSize: 'clamp(0.95rem, 1.3vw, 1.2rem)' }}>
                   Type a transaction in plain English. Our Bookkeeper agent will propose journal entries — and the
                   deterministic core will validate them. This is the actual flow, locally simulated.
                 </p>
