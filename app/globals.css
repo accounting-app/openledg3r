@@ -799,22 +799,25 @@
     /* ---- Demo (interactive transaction) ---- */
     .demo {
       flex: 1;
-      margin-top: 3vh;
+      min-height: 0;
+      margin-top: 1.5vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: flex-start;
+      gap: 20px;
+      align-items: stretch;
     }
 
     .demo-panel {
       background: rgba(13, 15, 16, 0.92);
       color: var(--paper);
       border-radius: 6px;
-      padding: 24px;
+      padding: 18px 20px;
       font-family: var(--mono);
-      font-size: 0.78rem;
-      line-height: 1.55;
-      min-height: 380px;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      min-height: 0;
+      height: 100%;
+      overflow: auto;
       position: relative;
     }
 
@@ -822,8 +825,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(253, 244, 247, 0.15);
     }
 
@@ -891,16 +894,18 @@
     .demo-input {
       background: rgba(255, 255, 255, 0.5);
       border: 1px solid var(--rule);
-      padding: 18px;
+      padding: 14px 16px;
       border-radius: 6px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
+      min-height: 0;
+      height: 100%;
     }
 
     .demo-input label {
       font-family: var(--mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-50);
@@ -908,14 +913,15 @@
 
     .demo-input textarea {
       width: 100%;
-      min-height: 130px;
+      flex: 1;
+      min-height: 80px;
       border: none;
       background: transparent;
       font-family: var(--serif);
       font-weight: 300;
       font-style: italic;
-      font-size: 1.15rem;
-      line-height: 1.4;
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      line-height: 1.35;
       resize: none;
       outline: none;
       color: var(--ink);
@@ -949,10 +955,10 @@
       background: var(--ink);
       color: var(--paper);
       border: none;
-      padding: 12px 22px;
+      padding: 10px 18px;
       border-radius: 99px;
       font-family: var(--mono);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
@@ -970,11 +976,11 @@
 
     /* ---- Moat / Roadmap timeline ---- */
     .timeline {
-      margin-top: 4vh;
-      flex: 1;
+      margin-top: 2vh;
+      flex: 0 0 auto;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 14px;
       position: relative;
     }
 
@@ -996,7 +1002,7 @@
     .tl-item {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       position: relative;
     }
 
@@ -1027,13 +1033,13 @@
     .tl-item .title {
       font-family: var(--serif);
       font-weight: 500;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       line-height: 1.2;
     }
 
     .tl-item .desc {
-      font-size: 0.82rem;
-      line-height: 1.5;
+      font-size: 0.78rem;
+      line-height: 1.4;
       color: rgba(253, 244, 247, 0.75);
     }
 
@@ -1048,26 +1054,26 @@
     }
 
     .closing .pad {
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .closing h1 {
-      font-size: clamp(3rem, 7.5vw, 7rem);
+      font-size: clamp(2.4rem, 5.5vw, 5.2rem);
       max-width: 18ch;
     }
 
     .closing .cta-row {
-      margin-top: 5vh;
+      margin-top: 2vh;
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .closing .cta {
-      padding: 14px 24px;
+      padding: 12px 20px;
       border-radius: 99px;
       font-family: var(--mono);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
@@ -1090,21 +1096,24 @@
 
     /* ---- Agent fleet (slide 7) ---- */
     .fleet {
-      margin-top: 3.5vh;
+      margin-top: 1.5vh;
       flex: 1;
+      min-height: 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-rows: repeat(2, minmax(0, 1fr)) minmax(0, 1fr);
+      gap: 10px;
     }
 
     .agent {
       background: rgba(255, 255, 255, 0.4);
       border: 1px solid var(--rule);
-      padding: 18px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+      min-height: 0;
+      overflow: hidden;
       transition: all 220ms ease;
       cursor: default;
     }
@@ -1144,20 +1153,39 @@
       font-family: var(--serif);
       font-weight: 500;
       font-style: italic;
-      font-size: 1.35rem;
+      font-size: clamp(1.05rem, 1.2vw, 1.25rem);
       line-height: 1.1;
       color: var(--ink);
     }
 
     .agent .agent-desc {
-      font-size: 0.82rem;
-      line-height: 1.5;
+      font-size: 0.78rem;
+      line-height: 1.35;
       color: var(--ink-50);
     }
 
+    .agent.agent-wide {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 12px;
+      row-gap: 4px;
+      align-content: center;
+    }
+
+    .agent.agent-wide .agent-icon {
+      grid-row: 1 / 4;
+      align-self: center;
+    }
+
+    .agent.agent-wide .agent-tag {
+      align-self: start;
+    }
+
     .agent .agent-icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: var(--ochre);
       color: var(--ink);
@@ -1166,25 +1194,94 @@
       justify-content: center;
       font-family: var(--mono);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    /* Short laptop viewports (e.g. 13" MacBook Air) */
+    @media (max-height: 900px) {
+      .fleet {
+        margin-top: 1vh;
+        gap: 8px;
+      }
+
+      .agent {
+        padding: 10px 12px;
+        gap: 4px;
+      }
+
+      .agent .agent-name {
+        font-size: 1rem;
+      }
+
+      .agent .agent-desc {
+        font-size: 0.72rem;
+        line-height: 1.3;
+      }
+
+      .agent .agent-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.72rem;
+      }
+
+      .agent.agent-wide {
+        column-gap: 10px;
+        row-gap: 2px;
+      }
+
+      .demo {
+        margin-top: 1vh;
+        gap: 14px;
+      }
+
+      .demo-input {
+        padding: 12px 14px;
+        gap: 8px;
+      }
+
+      .demo-input textarea {
+        min-height: 64px;
+        font-size: 0.95rem;
+      }
+
+      .demo-panel {
+        padding: 14px 16px;
+        font-size: 0.7rem;
+      }
+
+      .demo-panel .tag-row {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+      }
+
+      .demo-input .go {
+        padding: 8px 14px;
+        font-size: 0.68rem;
+      }
+
+      .demo-input .preset {
+        padding: 5px 8px;
+        font-size: 0.65rem;
+      }
     }
 
     /* ---- Bus model ---- */
     .bizmodel {
-      margin-top: 3vh;
+      margin-top: 1.5vh;
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 14px;
+      min-height: 0;
     }
 
     .biz-card {
       background: rgba(13, 15, 16, 0.04);
       border: 1px solid var(--rule);
-      padding: 28px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 8px;
     }
 
     .biz-card.highlight {
@@ -1208,14 +1305,14 @@
     .biz-card h3 {
       font-family: var(--serif);
       font-weight: 500;
-      font-size: 1.6rem;
+      font-size: clamp(1.2rem, 1.8vw, 1.45rem);
       line-height: 1.15;
     }
 
     .biz-card .price {
       font-family: var(--serif);
       font-weight: 300;
-      font-size: 2.6rem;
+      font-size: clamp(1.9rem, 2.8vw, 2.25rem);
       line-height: 1;
       color: var(--moss);
     }
@@ -1239,14 +1336,14 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      margin-top: 6px;
+      gap: 5px;
+      margin-top: 2px;
     }
 
     .biz-card ul li {
-      font-size: 0.88rem;
-      line-height: 1.4;
-      padding-left: 22px;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      padding-left: 20px;
       position: relative;
     }
 
@@ -1659,6 +1756,22 @@
       .bizmodel,
       .why-now {
         grid-template-columns: 1fr;
+      }
+
+      .fleet {
+        grid-template-rows: auto;
+      }
+
+      .agent.agent-wide {
+        grid-column: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .agent.agent-wide .agent-icon {
+        grid-row: auto;
+        align-self: auto;
       }
 
       .experts {

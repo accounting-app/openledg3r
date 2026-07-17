@@ -44,11 +44,11 @@ export function Slides({
                   Auditable. Self-hosted. MCP-native. Free. Governed by a US accountant community
                   foundation—not a vendor.
                 </div>
-                <div className="stamp reveal reveal-4">
+                {/* <div className="stamp reveal reveal-4">
                   <div className="num"><em>50</em></div>
                   <div className="lbl">expert lenses</div>
                   <div className="yr">v1.0 — 2026</div>
-                </div>
+                </div> */}
                 <div className="meta reveal reveal-5">
                   <div className="col"><strong>WHAT</strong>OpenLedger — Agentic GL</div>
                   <div className="col"><strong>WHO</strong>Founding team · US accountant foundation</div>
@@ -64,27 +64,23 @@ export function Slides({
       >
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CONTENTS</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>A <em>book</em> in eleven pages.</h2>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>A <em>book</em> in eight pages.</h2>
                 <div className="toc reveal reveal-3">
-                  <div className="toc-row" onClick={() => goTo(2)}><span className="num">II.</span><span className="ttl">The <em>bet</em>: ledgers
+                  <div className="toc-row" onClick={() => goTo(2)}><span className="num">I.</span><span className="ttl">The <em>bet</em>: ledgers
                       are software, books are operations</span><span className="meta">3 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(3)}><span className="num">III.</span><span className="ttl">The <em>incumbent</em> &
+                  <div className="toc-row" onClick={() => goTo(3)}><span className="num">II.</span><span className="ttl">The <em>incumbent</em> &
                       the cracks in QuickBooks</span><span className="meta">4 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(4)}><span className="num">IV.</span><span className="ttl">The <em>fifty</em>: what
-                      we asked the experts</span><span className="meta">2 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(5)}><span className="num">V.</span><span className="ttl">The <em>architecture</em>:
-                      deterministic core, agentic shell</span><span className="meta">5 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(6)}><span className="num">VI.</span><span className="ttl">The <em>three
+                  <div className="toc-row" onClick={() => goTo(4)}><span className="num">III.</span><span className="ttl">The <em>three
                         pillars</em> that make it un-clone-able</span><span className="meta">3 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(7)}><span className="num">VII.</span><span className="ttl">The <em>agent fleet</em>
+                  <div className="toc-row" onClick={() => goTo(5)}><span className="num">IV.</span><span className="ttl">The <em>agent fleet</em>
                       — what they each do</span><span className="meta">4 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(8)}><span className="num">VIII.</span><span className="ttl">A <em>demo</em>: speak
+                  <div className="toc-row" onClick={() => goTo(6)}><span className="num">V.</span><span className="ttl">A <em>demo</em>: speak
                       a transaction into existence</span><span className="meta">live</span></div>
-                  <div className="toc-row" onClick={() => goTo(9)}><span className="num">IX.</span><span className="ttl">Versus the
+                  <div className="toc-row" onClick={() => goTo(7)}><span className="num">VI.</span><span className="ttl">Versus the
                       <em>field</em>: where we win</span><span className="meta">3 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(10)}><span className="num">X.</span><span className="ttl">The <em>business</em> —
+                  <div className="toc-row" onClick={() => goTo(8)}><span className="num">VII.</span><span className="ttl">The <em>business</em> —
                       open core, paid cloud, paid trust</span><span className="meta">3 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(11)}><span className="num">XI.</span><span className="ttl">The
+                  <div className="toc-row" onClick={() => goTo(9)}><span className="num">VIII.</span><span className="ttl">The
                       <em>ask</em></span><span className="meta">1 min</span></div>
                 </div>
               </div>
@@ -95,7 +91,7 @@ export function Slides({
         data-title="The Bet"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER II — THE BET</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER I — THE BET</div>
                 <div className="two-col">
                   <div className="col-left reveal reveal-2">
                     <h2 className="section">The general ledger is now <em>a runtime</em>, not a record.</h2>
@@ -147,7 +143,7 @@ export function Slides({
       >
         <div className="moss-bg"></div>
               <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER III — THE INCUMBENT</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER II — THE INCUMBENT</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '2vh', color: 'var(--paper)' }}>
                   QuickBooks has the data.<br />
                   We have <em>everything else.</em>
@@ -208,12 +204,14 @@ export function Slides({
               </div>
       </section>
 
+      {/* Hidden: The 50 Experts — toggle back by removing `{false && (` / `)}` and restoring arrays + indices */}
+      {false && (
       <section
         className={slideClass(4, "slide")}
         data-title="The 50 Experts"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER IV — THE METHOD</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER III — THE METHOD</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
                   Fifty <em>expert lenses</em> — one ledger.
                 </h2>
@@ -275,13 +273,16 @@ export function Slides({
                 </div>
               </div>
       </section>
+      )}
 
+      {/* Hidden: Architecture — toggle back by removing `{false && (` / `)}` and restoring arrays + indices */}
+      {false && (
       <section
-        className={slideClass(5, "slide")}
+        className={slideClass(4, "slide")}
         data-title="Architecture"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER V — ARCHITECTURE</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER III — ARCHITECTURE</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
                   A <em>deterministic core</em>. An <em>agentic shell</em>. Never inverted.
                 </h2>
@@ -329,14 +330,15 @@ export function Slides({
                 </div>
               </div>
       </section>
+      )}
 
       <section
-        className={slideClass(6, "slide moss")}
+        className={slideClass(4, "slide moss")}
         data-title="Three Pillars"
       >
         <div className="moss-bg"></div>
               <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VI — THE MOAT</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER III — THE MOAT</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '2vh', color: 'var(--paper)' }}>
                   Three pillars they <em>can't copy</em>.
                 </h2>
@@ -377,15 +379,15 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(7, "slide")}
+        className={slideClass(5, "slide")}
         data-title="Agent Fleet"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VII — THE FLEET</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER IV — THE FLEET</div>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
                   Seven <em>open agents</em>. One ledger. No subscription tier.
                 </h2>
-                <p className="lede reveal reveal-3" style={{ marginTop: '1.5vh' }}>
+                <p className="lede reveal reveal-3" style={{ marginTop: '0.8vh', fontSize: 'clamp(0.95rem, 1.3vw, 1.2rem)' }}>
                   QuickBooks gates each agent behind a paywall ranging from Essentials to Advanced. We ship all
                   seven in the open-source core. Differentiation moves to <em>quality of execution</em>, not access.
                 </p>
@@ -432,7 +434,7 @@ export function Slides({
                     <div className="agent-desc">Continuous anomaly detection — Benford's law, unusual vendor patterns, suspicious
                       round numbers.</div>
                   </div>
-                  <div className="agent" style={{ gridColumn: 'span 3' }}>
+                  <div className="agent agent-wide">
                     <div className="agent-icon">C</div>
                     <div className="agent-tag">close · finance</div>
                     <div className="agent-name">Closer — coordinates the rest at month-end.</div>
@@ -444,15 +446,15 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(8, "slide")}
+        className={slideClass(6, "slide")}
         data-title="Live Demo"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VIII — INTERACTIVE DEMO</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER V — INTERACTIVE DEMO</div>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
                   Speak a transaction. <em>Watch it post.</em>
                 </h2>
-                <p className="lede reveal reveal-3" style={{ marginTop: '1vh' }}>
+                <p className="lede reveal reveal-3" style={{ marginTop: '0.6vh', fontSize: 'clamp(0.95rem, 1.3vw, 1.2rem)' }}>
                   Type a transaction in plain English. Our Bookkeeper agent will propose journal entries — and the
                   deterministic core will validate them. This is the actual flow, locally simulated.
                 </p>
@@ -504,11 +506,11 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(9, "slide")}
+        className={slideClass(7, "slide")}
         data-title="Competitive"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER IX — THE FIELD</div>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VI — THE FIELD</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
                   Open <em>or</em> agentic. <em>Never both.</em>
                 </h2>
@@ -608,15 +610,15 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(10, "slide ruled")}
+        className={slideClass(8, "slide ruled")}
         data-title="Business Model"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER X — BUSINESS MODEL</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VII — BUSINESS MODEL</div>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
                   Open core. Paid <em>cloud</em>. Paid <em>trust</em>.
                 </h2>
-                <p className="lede reveal reveal-3" style={{ marginTop: '1vh' }}>
+                <p className="lede reveal reveal-3" style={{ marginTop: '0.6vh' }}>
                   Three revenue streams, each defensible by something other than feature gating.
                 </p>
                 <div className="bizmodel">
@@ -630,7 +632,7 @@ export function Slides({
                       <li>Single-tenant Docker / k8s · run on your hardware</li>
                       <li>AGPLv3 — share improvements back if you SaaS it</li>
                     </ul>
-                    <p style={{ fontSize: '0.8rem', marginTop: '10px', lineHeight: '1.45', color: 'var(--ink-50)' }}>
+                    <p style={{ fontSize: '0.75rem', marginTop: '4px', lineHeight: '1.4', color: 'var(--ink-50)' }}>
                       A product tier, not governance. Ownership and standards sit with the OpenLedger Foundation —
                       council-elected by US accountants.
                     </p>
@@ -649,17 +651,17 @@ export function Slides({
                   <div className="biz-card reveal reveal-5" style={{ gridColumn: 'span 2' }}>
                     <span className="label">Tier 03 · OpenLedger Trust — for accountants & regulated entities</span>
                     <h3>Audit-grade compliance, vertical packs, accountant cockpit.</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '18px', marginTop: '8px' }}>
-                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1.1rem' }}>For firms</strong>
-                        <p style={{ fontSize: '0.85rem', marginTop: '4px', lineHeight: '1.4', color: 'var(--ink-50)' }}>Multi-client
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px', marginTop: '4px' }}>
+                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1rem' }}>For firms</strong>
+                        <p style={{ fontSize: '0.8rem', marginTop: '2px', lineHeight: '1.35', color: 'var(--ink-50)' }}>Multi-client
                           cockpit. Bulk close. Workpapers export. ProAdvisor-style channel.</p>
                       </div>
-                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1.1rem' }}>For verticals</strong>
-                        <p style={{ fontSize: '0.85rem', marginTop: '4px', lineHeight: '1.4', color: 'var(--ink-50)' }}>Construction /
+                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1rem' }}>For verticals</strong>
+                        <p style={{ fontSize: '0.8rem', marginTop: '2px', lineHeight: '1.35', color: 'var(--ink-50)' }}>Construction /
                           non-profit / e-comm / SaaS metric packs. Built once, shared open.</p>
                       </div>
-                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1.1rem' }}>For regulated</strong>
-                        <p style={{ fontSize: '0.85rem', marginTop: '4px', lineHeight: '1.4', color: 'var(--ink-50)' }}>SOC 1 attestation.
+                      <div><strong style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '1rem' }}>For regulated</strong>
+                        <p style={{ fontSize: '0.8rem', marginTop: '2px', lineHeight: '1.35', color: 'var(--ink-50)' }}>SOC 1 attestation.
                           GAAP/IFRS reporting packs. SOX control templates.</p>
                       </div>
                     </div>
@@ -669,18 +671,18 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(11, "slide closing")}
+        className={slideClass(9, "slide closing")}
         data-title="The Ask"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER XI — THE ASK</div>
-                <h1 className="display reveal reveal-2" style={{ marginTop: '3vh' }}>
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VIII — THE ASK</div>
+                <h1 className="display reveal reveal-2" style={{ marginTop: '1.5vh' }}>
                   The general ledger<br />
                   <em>of the accountants, by the accountants, for the accountants.</em>
                 </h1>
-                <p className="lede reveal reveal-3" style={{ marginTop: '3vh', color: 'rgba(253,244,247,0.85)', maxWidth: '60ch' }}>
-                  Help us ship it. We're raising a $3M seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
-                  and convert 250 accounting firms onto OpenLedger Cloud. Seed capital funds execution;
+                <p className="lede reveal reveal-3" style={{ marginTop: '1.5vh', color: 'rgba(253,244,247,0.85)', maxWidth: '60ch' }}>
+                  Help us ship it. We're raising a $100,000 seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
+                  and onboard 250 accounting firms onto OpenLedger. Seed capital funds execution;
                   governance stays with the US accountant community foundation. The 18-month plan ↓
                 </p>
                 <div className="timeline reveal reveal-4">
@@ -712,7 +714,7 @@ export function Slides({
                 <div className="cta-row reveal reveal-5">
                   <button className="cta primary" onClick={() => goTo(0)}>Restart the deck</button>
                   <button className="cta" onClick={toggleOverview}>See all slides</button>
-                  <button className="cta" onClick={() => goTo(8)}>Run the demo again</button>
+                  <button className="cta" onClick={() => goTo(6)}>Run the demo again</button>
                 </div>
               </div>
       </section>
@@ -720,6 +722,6 @@ export function Slides({
   );
 }
 
-export const SLIDE_TITLES = ["Cover","Contents","The Bet","The Incumbent","The 50 Experts","Architecture","Three Pillars","Agent Fleet","Live Demo","Competitive","Business Model","The Ask"] as const;
+export const SLIDE_TITLES = ["Cover","Contents","The Bet","The Incumbent","Three Pillars","Agent Fleet","Live Demo","Competitive","Business Model","The Ask"] as const;
 
-export const SLIDE_VARIANTS = ["slide hero","slide","slide ruled","slide dark","slide","slide","slide moss","slide","slide","slide","slide ruled","slide closing"] as const;
+export const SLIDE_VARIANTS = ["slide hero","slide","slide ruled","slide dark","slide moss","slide","slide","slide","slide ruled","slide closing"] as const;

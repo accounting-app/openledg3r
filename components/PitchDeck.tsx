@@ -176,14 +176,14 @@ export function PitchDeck() {
       <div className="chrome-brand">
         {/* <Logo className="brand-logo" variant="full" /> */}
         <span className="chrome-brand-text">
-          <span className="brand">OPEN·LEDGER</span>
+          <span className="chrome-brand-extra">OPEN·LEDGER</span>
           <span className="chrome-brand-extra"> · PITCH DECK</span>
         </span>
       </div>
 
-      <div className="chrome-top">
+      {/* <div className="chrome-top">
         <span>22 MAY 2026</span>
-      </div>
+      </div> */}
 
       <div className="chrome-bottom">
         <span>
@@ -237,7 +237,7 @@ export function PitchDeck() {
         <button type="button" className="close" onClick={toggleOverview}>
           ×
         </button>
-        <h2>Eleven chapters · one ledger.</h2>
+        <h2>Eight chapters · one ledger.</h2>
         <div className="grid" id="overviewGrid">
           {SLIDE_TITLES.map((title, i) => (
             <Link
