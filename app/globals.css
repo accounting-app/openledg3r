@@ -1114,27 +1114,7 @@
       gap: 6px;
       min-height: 0;
       overflow: hidden;
-      transition: all 220ms ease;
       cursor: default;
-    }
-
-    .agent:hover {
-      background: var(--moss-deep);
-      color: var(--paper);
-      border-color: var(--moss-deep);
-    }
-
-    .agent:hover .agent-name {
-      color: var(--ochre);
-    }
-
-    .agent:hover .agent-desc {
-      color: rgba(253, 244, 247, 0.85);
-    }
-
-    .agent:hover .agent-tag {
-      color: rgba(253, 244, 247, 0.5);
-      border-color: rgba(253, 244, 247, 0.3);
     }
 
     .agent .agent-tag {
