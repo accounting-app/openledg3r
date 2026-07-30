@@ -618,10 +618,10 @@ export function Slides({
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VII — BUSINESS MODEL</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
-                  Open core. Paid <em>cloud</em>. Paid <em>trust</em>.
+                  Open core. Paid <em>cloud</em>.
                 </h2>
                 <p className="lede reveal reveal-3" style={{ marginTop: '0.6vh' }}>
-                  Three revenue streams, each defensible by something other than feature gating.
+                  Two revenue streams, each defensible by something other than feature gating.
                 </p>
                 <div className="bizmodel">
                   <div className="biz-card reveal reveal-4">
@@ -650,6 +650,7 @@ export function Slides({
                       <li>Multi-entity, multi-currency, unlimited users</li>
                     </ul>
                   </div>
+                  {/* Tier 03 · OpenLedger Trust — hidden for now
                   <div className="biz-card reveal reveal-5" style={{ gridColumn: 'span 2' }}>
                     <span className="label">Tier 03 · OpenLedger Trust — for accountants & regulated entities</span>
                     <h3>Audit-grade compliance, vertical packs, accountant cockpit.</h3>
@@ -668,6 +669,7 @@ export function Slides({
                       </div>
                     </div>
                   </div>
+                  */}
                 </div>
               </div>
       </section>
