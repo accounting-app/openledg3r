@@ -712,25 +712,25 @@ export function Slides({
                 <div className="timeline reveal reveal-5">
                   <div className="tl-item">
                     <div className="dot"></div>
-                    <div className="qtr">Q3 2026</div>
+                    <div className="qtr">Q4 2026</div>
                     <div className="title">v0.5 · public beta</div>
                     <div className="desc">Core ledger, Bookkeeper + Reconciler agents, QBO migration tool, Plaid feeds.</div>
                   </div>
                   <div className="tl-item">
                     <div className="dot"></div>
-                    <div className="qtr">Q4 2026</div>
+                    <div className="qtr">Q1 2027</div>
                     <div className="title">v1.0 · GA</div>
                     <div className="desc">Full agent fleet, SOC 2 Type I, Cloud launch, accountant cockpit beta.</div>
                   </div>
                   <div className="tl-item">
                     <div className="dot"></div>
-                    <div className="qtr">Q2 2027</div>
+                    <div className="qtr">Q3 2027</div>
                     <div className="title">v1.5 · vertical packs</div>
                     <div className="desc">Non-profit fund accounting, construction job costing, multi-entity consolidation.</div>
                   </div>
                   <div className="tl-item">
                     <div className="dot"></div>
-                    <div className="qtr">Q4 2027</div>
+                    <div className="qtr">Q1 2028</div>
                     <div className="title">v2.0 · Trust tier</div>
                     <div className="desc">SOC 2 Type II + SOC 1, GAAP/IFRS attestation, 1,000 firms on Cloud.</div>
                   </div>
@@ -749,11 +749,11 @@ export function Slides({
                   <em>of the accountants, by the accountants, for the accountants.</em>
                 </h1>
                 <p className="lede reveal reveal-3" style={{ marginTop: '2.5vh', color: 'rgba(253,244,247,0.85)', maxWidth: '52ch' }}>
-                  Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q4 2026,
+                  Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q1 2027,
                   reach 10,000 GitHub stars, and onboard 250 accounting firms.
                 </p>
                 <div className="ask-milestones reveal reveal-4">
-                  <div className="ask-ms"><strong>v1.0</strong><span>Q4 2026</span></div>
+                  <div className="ask-ms"><strong>v1.0</strong><span>Q1 2027</span></div>
                   <div className="ask-ms"><strong>10k stars</strong><span>community proof</span></div>
                   <div className="ask-ms"><strong>250 firms</strong><span>on Cloud</span></div>
                 </div>
