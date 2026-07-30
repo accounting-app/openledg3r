@@ -526,7 +526,6 @@ export function Slides({
                       <th></th>
                       <th>Open Source</th>
                       <th>Agentic AI</th>
-                      <th>MCP-Native</th>
                       <th>Self-Host</th>
                       <th>Audit Trail</th>
                       <th>Price (1 user)</th>
@@ -537,7 +536,6 @@ export function Slides({
                       <td>OpenLedger</td>
                       <td><span className="pill yes">AGPL+Commercial</span></td>
                       <td><span className="pill yes">7 agents</span></td>
-                      <td><span className="pill yes">First-class</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td><span className="pill yes">Cryptographic</span></td>
                       <td><strong>$0 OSS / $29 cloud</strong></td>
@@ -547,7 +545,6 @@ export function Slides({
                       <td><span className="pill no">Closed</span></td>
                       <td><span className="pill yes">7 agents (paywall)</span></td>
                       <td><span className="pill no">No</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill partial">App-level</span></td>
                       <td>$38–$275</td>
                     </tr>
@@ -555,7 +552,6 @@ export function Slides({
                       <td>Digits (AGL)</td>
                       <td><span className="pill no">Closed</span></td>
                       <td><span className="pill yes">Autonomous GL</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill no">No</span></td>
                       <td><span className="pill partial">App-level</span></td>
                       <td>Bundled w/ svc</td>
@@ -565,7 +561,6 @@ export function Slides({
                       <td><span className="pill no">Closed</span></td>
                       <td><span className="pill yes">Autonomous</span></td>
                       <td><span className="pill no">No</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill partial">App-level</span></td>
                       <td>Service pricing</td>
                     </tr>
@@ -574,7 +569,6 @@ export function Slides({
                       <td><span className="pill no">Closed</span></td>
                       <td><span className="pill partial">Copilot only</span></td>
                       <td><span className="pill no">No</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill partial">App-level</span></td>
                       <td>$15–$78</td>
                     </tr>
@@ -582,7 +576,6 @@ export function Slides({
                       <td>Odoo Accounting</td>
                       <td><span className="pill yes">LGPL</span></td>
                       <td><span className="pill no">None</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td>$0 / €31+</td>
@@ -591,7 +584,6 @@ export function Slides({
                       <td>ERPNext</td>
                       <td><span className="pill yes">GPLv3</span></td>
                       <td><span className="pill no">None</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td>$0 / $50</td>
@@ -600,7 +592,6 @@ export function Slides({
                       <td>Akaunting</td>
                       <td><span className="pill yes">GPLv3</span></td>
                       <td><span className="pill no">None</span></td>
-                      <td><span className="pill no">No</span></td>
                       <td><span className="pill yes">Yes</span></td>
                       <td><span className="pill partial">Basic</span></td>
                       <td>$0 / $9+</td>
