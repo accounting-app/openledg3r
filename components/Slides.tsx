@@ -64,7 +64,7 @@ export function Slides({
       >
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CONTENTS</div>
-                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>A <em>book</em> in eight pages.</h2>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '2vh' }}>A <em>book</em> in nine pages.</h2>
                 <div className="toc reveal reveal-3">
                   <div className="toc-row" onClick={() => goTo(2)}><span className="num">I.</span><span className="ttl">The <em>bet</em>: ledgers
                       are software, books are operations</span><span className="meta">3 min</span></div>
@@ -80,7 +80,9 @@ export function Slides({
                       <em>field</em>: where we win</span><span className="meta">3 min</span></div>
                   <div className="toc-row" onClick={() => goTo(8)}><span className="num">VII.</span><span className="ttl">The <em>business</em> —
                       open core, paid cloud, paid trust</span><span className="meta">3 min</span></div>
-                  <div className="toc-row" onClick={() => goTo(9)}><span className="num">VIII.</span><span className="ttl">The
+                  <div className="toc-row" onClick={() => goTo(9)}><span className="num">VIII.</span><span className="ttl">The <em>plan</em> —
+                      use of funds &amp; milestones</span><span className="meta">2 min</span></div>
+                  <div className="toc-row" onClick={() => goTo(10)}><span className="num">IX.</span><span className="ttl">The
                       <em>ask</em></span><span className="meta">1 min</span></div>
                 </div>
               </div>
@@ -671,21 +673,41 @@ export function Slides({
       </section>
 
       <section
-        className={slideClass(9, "slide closing")}
-        data-title="The Ask"
+        className={slideClass(9, "slide ruled")}
+        data-title="The Plan"
       >
         <div className="pad">
-                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VIII — THE ASK</div>
-                <h1 className="display reveal reveal-2" style={{ marginTop: '1.5vh' }}>
-                  The general ledger<br />
-                  <em>of the accountants, by the accountants, for the accountants.</em>
-                </h1>
-                <p className="lede reveal reveal-3" style={{ marginTop: '1.5vh', color: 'rgba(253,244,247,0.85)', maxWidth: '60ch' }}>
-                  Help us ship it. We're raising a $100,000 seed to ship v1.0 (Q4 2026), reach 10,000 GitHub stars,
-                  and onboard 250 accounting firms onto OpenLedger. Seed capital funds execution;
-                  governance stays with the US accountant community foundation. The 18-month plan ↓
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER VIII — THE PLAN</div>
+                <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
+                  $100k. Eighteen months. <em>Four bets.</em>
+                </h2>
+                <p className="lede reveal reveal-3" style={{ marginTop: '0.6vh', maxWidth: '62ch' }}>
+                  Seed capital funds execution — beta, agents, cloud, and firm adoption.
+                  Governance stays with the US accountant community foundation.
                 </p>
-                <div className="timeline reveal reveal-4">
+                <div className="funds reveal reveal-4">
+                  <div className="fund">
+                    <div className="pct">35%</div>
+                    <div className="name">Public beta</div>
+                    <div className="desc">Core ledger, Bookkeeper + Reconciler, QBO migration, Plaid feeds — ship v0.5.</div>
+                  </div>
+                  <div className="fund">
+                    <div className="pct">25%</div>
+                    <div className="name">Agent fleet</div>
+                    <div className="desc">Complete the seven-agent system through GA: Payables, Collector, Tax Counsel, Auditor, Closer.</div>
+                  </div>
+                  <div className="fund">
+                    <div className="pct">25%</div>
+                    <div className="name">Cloud &amp; trust</div>
+                    <div className="desc">Hosted MCP, SOC 2 Type I, Cloud launch, accountant cockpit beta.</div>
+                  </div>
+                  <div className="fund">
+                    <div className="pct">15%</div>
+                    <div className="name">Firm adoption</div>
+                    <div className="desc">10,000 GitHub stars and 250 accounting firms onto OpenLedger Cloud.</div>
+                  </div>
+                </div>
+                <div className="timeline reveal reveal-5">
                   <div className="tl-item">
                     <div className="dot"></div>
                     <div className="qtr">Q3 2026</div>
@@ -711,6 +733,28 @@ export function Slides({
                     <div className="desc">SOC 2 Type II + SOC 1, GAAP/IFRS attestation, 1,000 firms on Cloud.</div>
                   </div>
                 </div>
+              </div>
+      </section>
+
+      <section
+        className={slideClass(10, "slide closing")}
+        data-title="The Ask"
+      >
+        <div className="pad">
+                <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER IX — THE ASK</div>
+                <h1 className="display reveal reveal-2" style={{ marginTop: '3vh' }}>
+                  The general ledger<br />
+                  <em>of the accountants, by the accountants, for the accountants.</em>
+                </h1>
+                <p className="lede reveal reveal-3" style={{ marginTop: '2.5vh', color: 'rgba(253,244,247,0.85)', maxWidth: '52ch' }}>
+                  Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q4 2026,
+                  reach 10,000 GitHub stars, and onboard 250 accounting firms.
+                </p>
+                <div className="ask-milestones reveal reveal-4">
+                  <div className="ask-ms"><strong>v1.0</strong><span>Q4 2026</span></div>
+                  <div className="ask-ms"><strong>10k stars</strong><span>community proof</span></div>
+                  <div className="ask-ms"><strong>250 firms</strong><span>on Cloud</span></div>
+                </div>
                 <div className="cta-row reveal reveal-5">
                   <button className="cta primary" onClick={() => goTo(0)}>Restart the deck</button>
                   <button className="cta" onClick={toggleOverview}>See all slides</button>
@@ -722,6 +766,6 @@ export function Slides({
   );
 }
 
-export const SLIDE_TITLES = ["Cover","Contents","The Bet","The Incumbent","Three Pillars","Agent Fleet","Live Demo","Competitive","Business Model","The Ask"] as const;
+export const SLIDE_TITLES = ["Cover","Contents","The Bet","The Incumbent","Three Pillars","Agent Fleet","Live Demo","Competitive","Business Model","The Plan","The Ask"] as const;
 
-export const SLIDE_VARIANTS = ["slide hero","slide","slide ruled","slide dark","slide moss","slide","slide","slide","slide ruled","slide closing"] as const;
+export const SLIDE_VARIANTS = ["slide hero","slide","slide ruled","slide dark","slide moss","slide","slide","slide","slide ruled","slide ruled","slide closing"] as const;
