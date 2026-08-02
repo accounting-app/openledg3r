@@ -1182,8 +1182,8 @@
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, minmax(0, 1fr)) minmax(0, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: minmax(0, 1.6fr) minmax(0, 1fr);
       gap: 10px;
     }
 
@@ -1230,19 +1230,54 @@
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: 28px 1fr;
-      grid-template-rows: auto auto auto;
+      grid-template-rows: auto auto auto 1fr;
       column-gap: 12px;
       row-gap: 4px;
-      align-content: center;
+      align-content: start;
     }
 
     .agent.agent-wide .agent-icon {
       grid-row: 1 / 4;
-      align-self: center;
+      align-self: start;
+      margin-top: 2px;
     }
 
     .agent.agent-wide .agent-tag {
       align-self: start;
+    }
+
+    .agent.agent-wide .subagents {
+      grid-column: 1 / -1;
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .subagent {
+      border: 1px solid var(--rule);
+      background: rgba(255, 255, 255, 0.35);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-height: 0;
+    }
+
+    .subagent-name {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .subagent-desc {
+      font-size: 0.72rem;
+      line-height: 1.3;
+      color: var(--ink-50);
     }
 
     .agent .agent-icon {
@@ -1289,6 +1324,23 @@
       .agent.agent-wide {
         column-gap: 10px;
         row-gap: 2px;
+      }
+
+      .agent.agent-wide .subagents {
+        margin-top: 4px;
+        gap: 6px;
+      }
+
+      .subagent {
+        padding: 6px 8px;
+      }
+
+      .subagent-name {
+        font-size: 0.62rem;
+      }
+
+      .subagent-desc {
+        font-size: 0.66rem;
       }
 
       .demo {
@@ -1835,6 +1887,10 @@
       .agent.agent-wide .agent-icon {
         grid-row: auto;
         align-self: auto;
+      }
+
+      .agent.agent-wide .subagents {
+        grid-template-columns: 1fr 1fr;
       }
 
       .experts {

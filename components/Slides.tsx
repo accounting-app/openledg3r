@@ -319,7 +319,7 @@ export function Slides({
                   </div>
                   <div className="layer head">
                     <span className="name">L4 · MCP SERVER + AGENT FLEET</span>
-                    <span className="desc">First-class MCP host · OAuth 2.1 scopes · 7 native agents · BYO model (Claude / GPT /
+                    <span className="desc">First-class MCP host · OAuth 2.1 scopes · 3 native agents · BYO model (Claude / GPT /
                       Llama / local)</span>
                     <span className="tag">SHELL</span>
                   </div>
@@ -387,40 +387,38 @@ export function Slides({
         <div className="pad">
                 <div className="eyebrow reveal reveal-1"><span className="dot"></span> CHAPTER IV — THE FLEET</div>
                 <h2 className="section reveal reveal-2" style={{ marginTop: '1vh' }}>
-                  Seven <em>open agents</em>. One ledger. No subscription tier.
+                  Three <em>open agents</em>. One ledger. No subscription tier.
                 </h2>
                 <p className="lede reveal reveal-3" style={{ marginTop: '0.8vh', fontSize: 'clamp(0.95rem, 1.3vw, 1.2rem)' }}>
                   QuickBooks gates each agent behind a paywall ranging from Essentials to Advanced. We ship all
-                  seven in the open-source core. Differentiation moves to <em>quality of execution</em>, not access.
+                  three in the open-source core — Bookkeeper runs the day-to-day specialties as subagents.
+                  Differentiation moves to <em>quality of execution</em>, not access.
                 </p>
                 <div className="fleet reveal reveal-4">
-                  <div className="agent">
+                  <div className="agent agent-wide">
                     <div className="agent-icon">B</div>
-                    <div className="agent-tag">books</div>
+                    <div className="agent-tag">books · orchestrator</div>
                     <div className="agent-name">Bookkeeper</div>
                     <div className="agent-desc">Categorizes transactions, proposes journal entries, flags missing context, learns
-                      from corrections.</div>
-                  </div>
-                  <div className="agent">
-                    <div className="agent-icon">R</div>
-                    <div className="agent-tag">reconcile</div>
-                    <div className="agent-name">Reconciler</div>
-                    <div className="agent-desc">Three-way matches statements ↔ bank feed ↔ ledger. Explains discrepancies in plain
-                      English.</div>
-                  </div>
-                  <div className="agent">
-                    <div className="agent-icon">P</div>
-                    <div className="agent-tag">accounts payable</div>
-                    <div className="agent-name">Payables</div>
-                    <div className="agent-desc">Reads invoices from email, OCRs, drafts bill payments, routes for approval per
-                      policy.</div>
-                  </div>
-                  <div className="agent">
-                    <div className="agent-icon">$</div>
-                    <div className="agent-tag">accounts receivable</div>
-                    <div className="agent-name">Collector</div>
-                    <div className="agent-desc">Sends invoices, chases late payers with on-brand reminders, reconciles inbound
-                      payments.</div>
+                      from corrections — and delegates AP, AR, recon, and close to specialist subagents.</div>
+                    <div className="subagents">
+                      <div className="subagent">
+                        <span className="subagent-name">Reconciler</span>
+                        <span className="subagent-desc">Three-way match statements ↔ bank ↔ ledger</span>
+                      </div>
+                      <div className="subagent">
+                        <span className="subagent-name">Payables</span>
+                        <span className="subagent-desc">Invoice OCR, bill drafts, approval routing</span>
+                      </div>
+                      <div className="subagent">
+                        <span className="subagent-name">Collector</span>
+                        <span className="subagent-desc">Invoicing, dunning, inbound payment match</span>
+                      </div>
+                      <div className="subagent">
+                        <span className="subagent-name">Closer</span>
+                        <span className="subagent-desc">Accruals, close checklist, management pack</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="agent">
                     <div className="agent-icon">T</div>
@@ -433,15 +431,8 @@ export function Slides({
                     <div className="agent-icon">A</div>
                     <div className="agent-tag">audit</div>
                     <div className="agent-name">Auditor</div>
-                    <div className="agent-desc">Continuous anomaly detection — Benford's law, unusual vendor patterns, suspicious
+                    <div className="agent-desc">Continuous anomaly detection — Benford&apos;s law, unusual vendor patterns, suspicious
                       round numbers.</div>
-                  </div>
-                  <div className="agent agent-wide">
-                    <div className="agent-icon">C</div>
-                    <div className="agent-tag">close · finance</div>
-                    <div className="agent-name">Closer — coordinates the rest at month-end.</div>
-                    <div className="agent-desc">Orchestrates the month-end close: queues accruals, prompts the reconciler, prepares
-                      the management pack, drafts the variance commentary. The agent every CFO has been trying to hire.</div>
                   </div>
                 </div>
               </div>
@@ -682,12 +673,12 @@ export function Slides({
                   <div className="fund">
                     <div className="pct">35%</div>
                     <div className="name">Public beta</div>
-                    <div className="desc">Core ledger, Bookkeeper + Reconciler, QBO migration, Plaid feeds — ship v0.5.</div>
+                    <div className="desc">Core ledger, Bookkeeper + first subagents, QBO migration, Plaid feeds — ship v0.5.</div>
                   </div>
                   <div className="fund">
                     <div className="pct">25%</div>
                     <div className="name">Agent fleet</div>
-                    <div className="desc">Complete the seven-agent system through GA: Payables, Collector, Tax Counsel, Auditor, Closer.</div>
+                    <div className="desc">Complete the three-agent system through GA: Bookkeeper subagents, Tax Counsel, Auditor.</div>
                   </div>
                   <div className="fund">
                     <div className="pct">25%</div>
@@ -705,7 +696,7 @@ export function Slides({
                     <div className="dot"></div>
                     <div className="qtr">Q4 2026</div>
                     <div className="title">v0.5 · public beta</div>
-                    <div className="desc">Core ledger, Bookkeeper + Reconciler agents, QBO migration tool, Plaid feeds.</div>
+                    <div className="desc">Core ledger, Bookkeeper with Reconciler subagent, QBO migration tool, Plaid feeds.</div>
                   </div>
                   <div className="tl-item">
                     <div className="dot"></div>
