@@ -14,6 +14,7 @@ export function TheIncumbentSlide({ className }: { className: string }) {
     >
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER II — THE INCUMBENT
+        <span className="eyebrow-slot">Problem · Why now</span>
       </div>
       <h2
         className="section reveal reveal-2"

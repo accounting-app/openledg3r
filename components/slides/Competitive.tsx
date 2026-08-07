@@ -14,6 +14,7 @@ export function CompetitiveSlide({ className }: { className: string }) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER VI — THE FIELD
+        <span className="eyebrow-slot">Competition</span>
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "2vh" }}>
         Open <em>or</em> agentic. <em>Never both.</em>

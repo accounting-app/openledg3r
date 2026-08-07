@@ -9,6 +9,7 @@ export function BusinessModelSlide({ className }: { className: string }) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER VII — BUSINESS MODEL
+        <span className="eyebrow-slot">Revenue model</span>
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "1vh" }}>
         Open core. Paid <em>cloud</em>.

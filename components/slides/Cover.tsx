@@ -8,7 +8,8 @@ export function CoverSlide({ className }: { className: string }) {
   return (
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
-        {/* <span className="dot"></span> SERIES SEED · CONFIDENTIAL */}
+        <span className="dot"></span> OPENLEDGER
+        <span className="eyebrow-slot">Agentic general ledger for accountants, by accountants, of accountants.</span>
       </div>
       <h1 className="display reveal reveal-2">
         The books

@@ -9,6 +9,7 @@ export function ThePlanSlide({ className }: { className: string }) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER VIII — THE PLAN
+        <span className="eyebrow-slot">Milestones</span>
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "1vh" }}>
         $100k. Three quarters. <em>Build, ship, prove.</em>

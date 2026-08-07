@@ -168,6 +168,17 @@
       border-radius: 50%;
     }
 
+    .eyebrow .eyebrow-slot {
+      opacity: 0.55;
+      letter-spacing: 0.14em;
+    }
+
+    .eyebrow .eyebrow-slot::before {
+      content: "·";
+      margin-right: 10px;
+      opacity: 0.7;
+    }
+
     h1.display {
       font-family: var(--serif);
       font-weight: 400;
@@ -1357,6 +1368,10 @@
         font-size: clamp(1rem, min(1.8vw, 2.4vh), 1.45rem);
       }
 
+      .toc-row .classic {
+        font-size: 0.6rem;
+      }
+
       /* Incumbent / dense list slides */
       .why-now {
         margin-top: 1.2vh;
@@ -1695,7 +1710,7 @@
 
     .toc-row {
       display: grid;
-      grid-template-columns: 60px 1fr auto;
+      grid-template-columns: 60px 1fr auto auto;
       gap: 24px;
       padding: 14px 0;
       border-bottom: 1px solid var(--rule);
@@ -1732,6 +1747,20 @@
       font-style: italic;
       font-weight: 300;
       color: var(--moss);
+    }
+
+    .toc-row .classic {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--moss);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      opacity: 0.85;
+    }
+
+    .toc-row:hover .classic {
+      opacity: 1;
     }
 
     .toc-row .meta {
@@ -2084,6 +2113,7 @@
         gap: 12px;
       }
 
+      .toc-row .classic,
       .toc-row .meta {
         display: none;
       }

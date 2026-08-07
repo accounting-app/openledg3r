@@ -173,13 +173,13 @@ export function PitchDeck() {
 
   return (
     <>
-      <div className="chrome-brand">
+      {/* <div className="chrome-brand"> */}
         {/* <Logo className="brand-logo" variant="full" /> */}
-        <span className="chrome-brand-text">
+        {/* <span className="chrome-brand-text">
           <span className="chrome-brand-extra">OPEN·LEDGER</span>
           <span className="chrome-brand-extra"> · PITCH DECK</span>
-        </span>
-      </div>
+        </span> */}
+      {/* </div> */}
 
       {/* <div className="chrome-top">
         <span>22 MAY 2026</span>

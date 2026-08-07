@@ -9,6 +9,7 @@ export function AgentFleetSlide({ className }: { className: string }) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER IV — THE FLEET
+        <span className="eyebrow-slot">Solution</span>
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "1vh" }}>
         Three <em>open agents</em>. One ledger. No subscription tier.

@@ -15,10 +15,8 @@ export function ContentsSlide({ className, goTo }: ContentsSlideProps) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CONTENTS
+        <span className="eyebrow-slot">Story chapters · classic structure</span>
       </div>
-      {/* <h2 className="section reveal reveal-2" style={{ marginTop: "2vh" }}>
-        A <em>book</em> in nine pages.
-      </h2> */}
       <div className="toc reveal reveal-3">
         {TOC_ITEMS.map((item) => (
           <div
@@ -30,6 +28,7 @@ export function ContentsSlide({ className, goTo }: ContentsSlideProps) {
             <span className="ttl">
               <RichText parts={item.label} />
             </span>
+            <span className="classic">{item.classic}</span>
             <span className="meta">{item.duration}</span>
           </div>
         ))}

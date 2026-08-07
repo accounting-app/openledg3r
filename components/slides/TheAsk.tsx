@@ -19,6 +19,7 @@ export function TheAskSlide({
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER IX — THE ASK
+        <span className="eyebrow-slot">Ask · Thank you</span>
       </div>
       <h1 className="display reveal reveal-2" style={{ marginTop: "3vh" }}>
         The general ledger
@@ -35,6 +36,7 @@ export function TheAskSlide({
       >
         Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q4
         2026, reach 10,000 GitHub stars, and onboard 250 accounting firms.
+        Thank you.
       </p>
       <div className="ask-milestones reveal reveal-4">
         {ASK_MILESTONES.map((ms) => (

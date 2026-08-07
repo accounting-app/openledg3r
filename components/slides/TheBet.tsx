@@ -9,6 +9,7 @@ export function TheBetSlide({ className }: { className: string }) {
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER I — THE BET
+        <span className="eyebrow-slot">Problem · Market</span>
       </div>
       <div className="two-col">
         <div className="col-left reveal reveal-2">

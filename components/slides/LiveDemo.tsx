@@ -28,6 +28,7 @@ export function LiveDemoSlide({
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER V — INTERACTIVE DEMO
+        <span className="eyebrow-slot">Solution · Proof</span>
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "1vh" }}>
         Speak a transaction. <em>Watch it post.</em>

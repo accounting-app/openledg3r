@@ -6,6 +6,8 @@ export type TocItem = {
   num: string;
   slideIndex: number;
   duration: string;
+  /** Classic pitch-deck slot(s) this chapter maps to. */
+  classic: string;
   label: readonly RichPart[];
 };
 

@@ -14,6 +14,7 @@ export function ThreePillarsSlide({ className }: { className: string }) {
     >
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CHAPTER III — THE MOAT
+        <span className="eyebrow-slot">Solution · Moat · Governance</span>
       </div>
       <h2
         className="section reveal reveal-2"
