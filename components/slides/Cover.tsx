@@ -1,3 +1,4 @@
+import { COVER_META } from "@/lib/pitch-content";
 import { SlideShell } from "./SlideShell";
 
 export const title = "Cover";
@@ -22,18 +23,12 @@ export function CoverSlide({ className }: { className: string }) {
         community foundation—not a vendor.
       </div>
       <div className="meta reveal reveal-5">
-        <div className="col">
-          <strong>WHAT</strong>OpenLedger — Agentic GL
-        </div>
-        <div className="col">
-          <strong>WHO</strong>Founding team · US accountant foundation
-        </div>
-        <div className="col">
-          <strong>WHERE</strong>github.com/openledger
-        </div>
-        <div className="col">
-          <strong>WHY NOW</strong>QBO at $275/mo · MCP at scale
-        </div>
+        {COVER_META.map((col) => (
+          <div className="col" key={col.label}>
+            <strong>{col.label}</strong>
+            {col.value}
+          </div>
+        ))}
       </div>
     </SlideShell>
   );

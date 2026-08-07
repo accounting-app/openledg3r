@@ -1,3 +1,4 @@
+import { BET_STATS } from "@/lib/pitch-content";
 import { SlideShell } from "./SlideShell";
 
 export const title = "The Bet";
@@ -39,26 +40,15 @@ export function TheBetSlide({ className }: { className: string }) {
             <cite>— Ian Crosby, founder, Bench → Synthetic</cite>
           </div>
           <div className="stat-grid" style={{ marginTop: "1vh" }}>
-            <div className="stat">
-              <div className="n">
-                82<em>%</em>
+            {BET_STATS.map((stat) => (
+              <div className="stat" key={stat.label}>
+                <div className="n">
+                  {stat.value}
+                  {stat.suffix ? <em>{stat.suffix}</em> : null}
+                </div>
+                <div className="lbl">{stat.label}</div>
               </div>
-              <div className="lbl">
-                SMB accounting share held by QuickBooks (2026)
-              </div>
-            </div>
-            <div className="stat">
-              <div className="n">$275</div>
-              <div className="lbl">QBO Advanced — up from $150 in 2020</div>
-            </div>
-            <div className="stat">
-              <div className="n">7</div>
-              <div className="lbl">AI agents inside QuickBooks — all paywalled</div>
-            </div>
-            <div className="stat">
-              <div className="n">6,400+</div>
-              <div className="lbl">MCP servers in the registry (Feb 2026)</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

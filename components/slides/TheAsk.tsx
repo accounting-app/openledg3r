@@ -1,3 +1,4 @@
+import { ASK_MILESTONES, DEMO_SLIDE_INDEX } from "@/lib/pitch-content";
 import { SlideShell } from "./SlideShell";
 
 export const title = "The Ask";
@@ -36,18 +37,12 @@ export function TheAskSlide({
         2027, reach 10,000 GitHub stars, and onboard 250 accounting firms.
       </p>
       <div className="ask-milestones reveal reveal-4">
-        <div className="ask-ms">
-          <strong>v1.0</strong>
-          <span>Q1 2027</span>
-        </div>
-        <div className="ask-ms">
-          <strong>10k stars</strong>
-          <span>community proof</span>
-        </div>
-        <div className="ask-ms">
-          <strong>250 firms</strong>
-          <span>on Cloud</span>
-        </div>
+        {ASK_MILESTONES.map((ms) => (
+          <div className="ask-ms" key={ms.strong}>
+            <strong>{ms.strong}</strong>
+            <span>{ms.label}</span>
+          </div>
+        ))}
       </div>
       <div className="cta-row reveal reveal-5">
         <button className="cta primary" onClick={() => goTo(0)}>
@@ -56,7 +51,7 @@ export function TheAskSlide({
         <button className="cta" onClick={toggleOverview}>
           See all slides
         </button>
-        <button className="cta" onClick={() => goTo(6)}>
+        <button className="cta" onClick={() => goTo(DEMO_SLIDE_INDEX)}>
           Run the demo again
         </button>
       </div>

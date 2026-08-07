@@ -1,7 +1,13 @@
+import { COMPARE_HEADERS, COMPARE_ROWS } from "@/lib/pitch-content";
+import type { ComparePill } from "@/lib/pitch-types";
 import { SlideShell } from "./SlideShell";
 
 export const title = "Competitive";
 export const variant = "slide";
+
+function Pill({ pill }: { pill: ComparePill }) {
+  return <span className={`pill ${pill.tone}`}>{pill.label}</span>;
+}
 
 export function CompetitiveSlide({ className }: { className: string }) {
   return (
@@ -21,144 +27,36 @@ export function CompetitiveSlide({ className }: { className: string }) {
           <thead>
             <tr>
               <th></th>
-              <th>Open Source</th>
-              <th>Agentic AI</th>
-              <th>Self-Host</th>
-              <th>Audit Trail</th>
-              <th>Price (1 user)</th>
+              {COMPARE_HEADERS.map((header) => (
+                <th key={header}>{header}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr className="us">
-              <td>OpenLedger</td>
-              <td>
-                <span className="pill yes">AGPL+Commercial</span>
-              </td>
-              <td>
-                <span className="pill yes">7 agents</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>
-                <span className="pill yes">Cryptographic</span>
-              </td>
-              <td>
-                <strong>$0 OSS / $29 cloud</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>QuickBooks Online</td>
-              <td>
-                <span className="pill no">Closed</span>
-              </td>
-              <td>
-                <span className="pill yes">7 agents (paywall)</span>
-              </td>
-              <td>
-                <span className="pill no">No</span>
-              </td>
-              <td>
-                <span className="pill partial">App-level</span>
-              </td>
-              <td>$38–$275</td>
-            </tr>
-            <tr>
-              <td>Digits (AGL)</td>
-              <td>
-                <span className="pill no">Closed</span>
-              </td>
-              <td>
-                <span className="pill yes">Autonomous GL</span>
-              </td>
-              <td>
-                <span className="pill no">No</span>
-              </td>
-              <td>
-                <span className="pill partial">App-level</span>
-              </td>
-              <td>Bundled w/ svc</td>
-            </tr>
-            <tr>
-              <td>Pilot / Synthetic</td>
-              <td>
-                <span className="pill no">Closed</span>
-              </td>
-              <td>
-                <span className="pill yes">Autonomous</span>
-              </td>
-              <td>
-                <span className="pill no">No</span>
-              </td>
-              <td>
-                <span className="pill partial">App-level</span>
-              </td>
-              <td>Service pricing</td>
-            </tr>
-            <tr>
-              <td>Xero</td>
-              <td>
-                <span className="pill no">Closed</span>
-              </td>
-              <td>
-                <span className="pill partial">Copilot only</span>
-              </td>
-              <td>
-                <span className="pill no">No</span>
-              </td>
-              <td>
-                <span className="pill partial">App-level</span>
-              </td>
-              <td>$15–$78</td>
-            </tr>
-            <tr>
-              <td>Odoo Accounting</td>
-              <td>
-                <span className="pill yes">LGPL</span>
-              </td>
-              <td>
-                <span className="pill no">None</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>$0 / €31+</td>
-            </tr>
-            <tr>
-              <td>ERPNext</td>
-              <td>
-                <span className="pill yes">GPLv3</span>
-              </td>
-              <td>
-                <span className="pill no">None</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>$0 / $50</td>
-            </tr>
-            <tr>
-              <td>Akaunting</td>
-              <td>
-                <span className="pill yes">GPLv3</span>
-              </td>
-              <td>
-                <span className="pill no">None</span>
-              </td>
-              <td>
-                <span className="pill yes">Yes</span>
-              </td>
-              <td>
-                <span className="pill partial">Basic</span>
-              </td>
-              <td>$0 / $9+</td>
-            </tr>
+            {COMPARE_ROWS.map((row) => (
+              <tr className={row.highlight ? "us" : undefined} key={row.name}>
+                <td>{row.name}</td>
+                <td>
+                  <Pill pill={row.openSource} />
+                </td>
+                <td>
+                  <Pill pill={row.agentic} />
+                </td>
+                <td>
+                  <Pill pill={row.selfHost} />
+                </td>
+                <td>
+                  <Pill pill={row.audit} />
+                </td>
+                <td>
+                  {row.priceStrong ? (
+                    <strong>{row.price}</strong>
+                  ) : (
+                    row.price
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
