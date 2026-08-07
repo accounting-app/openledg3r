@@ -33,8 +33,8 @@ export function TheAskSlide({
           maxWidth: "52ch",
         }}
       >
-        Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q1
-        2027, reach 10,000 GitHub stars, and onboard 250 accounting firms.
+        Help us ship it. We&apos;re raising a $100,000 seed to ship v1.0 by Q4
+        2026, reach 10,000 GitHub stars, and onboard 250 accounting firms.
       </p>
       <div className="ask-milestones reveal reveal-4">
         {ASK_MILESTONES.map((ms) => (

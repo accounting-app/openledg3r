@@ -11,7 +11,7 @@ export function ThePlanSlide({ className }: { className: string }) {
         <span className="dot"></span> CHAPTER VIII — THE PLAN
       </div>
       <h2 className="section reveal reveal-2" style={{ marginTop: "1vh" }}>
-        $100k. Eighteen months. <em>Four bets.</em>
+        $100k. Three quarters. <em>Build, ship, prove.</em>
       </h2>
       <p
         className="lede reveal reveal-3"

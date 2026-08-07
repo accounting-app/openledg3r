@@ -1030,8 +1030,8 @@
       margin-top: 3vh;
       flex: 0 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
       position: relative;
     }
 
@@ -1093,14 +1093,15 @@
     .tl-item .title {
       font-family: var(--serif);
       font-weight: 500;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       line-height: 1.2;
     }
 
     .tl-item .desc {
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       line-height: 1.4;
       color: var(--ink-50);
+      max-width: none;
     }
 
     .slide.dark .tl-item .desc,

@@ -355,7 +355,7 @@ export const FUND_ALLOCATIONS: readonly FundAllocation[] = [
   {
     pct: "35%",
     name: "Public beta",
-    desc: "Core ledger, Bookkeeper + first subagents, QBO migration, Plaid feeds — ship v0.5.",
+    desc: "Core ledger, Bookkeeper + first subagents, QBO migration, Plaid — open Q3, ramp through Q4.",
   },
   {
     pct: "25%",
@@ -365,40 +365,35 @@ export const FUND_ALLOCATIONS: readonly FundAllocation[] = [
   {
     pct: "25%",
     name: "Cloud & trust",
-    desc: "Hosted MCP, SOC 2 Type I, Cloud launch, accountant cockpit beta.",
+    desc: "Hosted MCP, Cloud launch in Q4; SOC 2 Type I and accountant cockpit in Q1.",
   },
   {
     pct: "15%",
     name: "Firm adoption",
-    desc: "10,000 GitHub stars and 250 accounting firms onto OpenLedger Cloud.",
+    desc: "Q4 marketing & branding push; 10,000 GitHub stars and 250 firms onto OpenLedger Cloud.",
   },
 ];
 
 export const TIMELINE: readonly TimelineItem[] = [
   {
+    quarter: "Q3 2026",
+    title: "v0.5 · Outgoing",
+    desc: "Core ledger live, Bookkeeper with first subagents, QBO migration and Plaid feeds in flight.",
+  },
+  {
     quarter: "Q4 2026",
-    title: "v0.5 · public beta",
-    desc: "Core ledger, Bookkeeper with Reconciler subagent, QBO migration tool, Plaid feeds.",
+    title: "v1.0 · Ship",
+    desc: "Public beta → GA: full agent fleet, Cloud launch, accountant cockpit beta, plus marketing and branding initiative.",
   },
   {
     quarter: "Q1 2027",
-    title: "v1.0 · GA",
-    desc: "Full agent fleet, SOC 2 Type I, Cloud launch, accountant cockpit beta.",
-  },
-  {
-    quarter: "Q3 2027",
-    title: "v1.5 · vertical packs",
-    desc: "Non-profit fund accounting, construction job costing, multi-entity consolidation.",
-  },
-  {
-    quarter: "Q1 2028",
-    title: "v2.0 · Trust tier",
-    desc: "SOC 2 Type II + SOC 1, GAAP/IFRS attestation, 1,000 firms on Cloud.",
+    title: "v1.1 · Prove",
+    desc: "SOC 2 Type I, first vertical packs, path to 10k stars and 250 firms on Cloud.",
   },
 ];
 
 export const ASK_MILESTONES: readonly AskMilestone[] = [
-  { strong: "v1.0", label: "Q1 2027" },
+  { strong: "v1.0", label: "Q4 2026" },
   { strong: "10k stars", label: "community proof" },
   { strong: "250 firms", label: "on Cloud" },
 ];
