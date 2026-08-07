@@ -8,9 +8,9 @@ export function CoverSlide({ className }: { className: string }) {
   return (
     <SlideShell className={className} title={title}>
       <div className="eyebrow reveal reveal-1">
-        <span className="dot"></span> SERIES SEED · CONFIDENTIAL
+        {/* <span className="dot"></span> SERIES SEED · CONFIDENTIAL */}
       </div>
-      <h1 className="display reveal reveal-2" style={{ marginTop: "3vh" }}>
+      <h1 className="display reveal reveal-2">
         The books
         <br />
         should <em>keep themselves.</em>

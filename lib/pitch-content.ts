@@ -33,10 +33,10 @@ export type {
 } from "./pitch-types";
 
 export const COVER_META: readonly MetaCol[] = [
-  { label: "WHAT", value: "OpenLedger — Agentic GL" },
-  { label: "WHO", value: "Founding team · US accountant foundation" },
+  { label: "WHY", value: "Price up · value flat · AI paywalled" },
+  { label: "HOW", value: "US accountant foundation · not a vendor" },
+  { label: "WHAT", value: "Open-source Agentic General Ledger" },
   { label: "WHERE", value: "github.com/openledger" },
-  { label: "WHY NOW", value: "QBO at $275/mo · MCP at scale" },
 ];
 
 export const TOC_ITEMS: readonly TocItem[] = [

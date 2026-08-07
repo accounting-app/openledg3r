@@ -16,9 +16,9 @@ export function ContentsSlide({ className, goTo }: ContentsSlideProps) {
       <div className="eyebrow reveal reveal-1">
         <span className="dot"></span> CONTENTS
       </div>
-      <h2 className="section reveal reveal-2" style={{ marginTop: "2vh" }}>
+      {/* <h2 className="section reveal reveal-2" style={{ marginTop: "2vh" }}>
         A <em>book</em> in nine pages.
-      </h2>
+      </h2> */}
       <div className="toc reveal reveal-3">
         {TOC_ITEMS.map((item) => (
           <div
