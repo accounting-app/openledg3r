@@ -18,15 +18,18 @@ Open [http://localhost:3000](http://localhost:3000).
 - `F` — fullscreen
 - `Home` / `End` — first / last slide
 
-## Regenerating slides from HTML
+## Editing slides
 
-If you edit `openledger_pitch.html`, regenerate slide components:
+Each slide is a component under `components/slides/`. Titles and variants are
+registered in `components/slides/index.tsx`.
+
+To refresh CSS from the legacy HTML file:
 
 ```bash
 npm run migrate
 ```
 
-Then review `components/Slides.tsx` (especially the Live Demo slide).
+Then review `app/globals.css` if styles changed unexpectedly.
 
 ## Production
 

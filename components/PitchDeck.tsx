@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Logo } from "@/components/Logo";
-import { Slides, SLIDE_TITLES } from "@/components/Slides";
+// import { Logo } from "@/components/Logo";
+import { Slides, SLIDE_TITLES } from "@/components/slides";
 import { buildDemoLines, DEMO_PRESETS, type DemoLine } from "@/lib/demo";
 import {
   slideIndexFromPath,

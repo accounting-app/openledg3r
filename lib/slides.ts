@@ -1,4 +1,4 @@
-import { SLIDE_TITLES } from "@/components/Slides";
+import { SLIDE_TITLES } from "@/components/slides";
 
 export const TOTAL_SLIDES = SLIDE_TITLES.length;
 
