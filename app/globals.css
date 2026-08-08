@@ -1858,6 +1858,10 @@
       color: var(--ink-50);
     }
 
+    .slide.dark .callout-stat .lbl {
+      color: rgba(253, 244, 247, 0.6);
+    }
+
     /* ---- Hint footer ---- */
     .hint {
       font-family: var(--mono);

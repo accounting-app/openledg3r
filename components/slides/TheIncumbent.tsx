@@ -48,9 +48,7 @@ export function TheIncumbentSlide({ className }: { className: string }) {
             {INCUMBENT_CALLOUT.value}
             <em>{INCUMBENT_CALLOUT.suffix}</em>
           </div>
-          <div className="lbl" style={{ color: "rgba(253,244,247,0.6)" }}>
-            {INCUMBENT_CALLOUT.detail}
-          </div>
+          <div className="lbl">{INCUMBENT_CALLOUT.detail}</div>
         </div>
       </div>
     </SlideShell>
