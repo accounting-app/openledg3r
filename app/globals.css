@@ -5,7 +5,8 @@
       --safe-right: env(safe-area-inset-right, 0px);
       --deck-nav-size: 46px;
       --deck-footer-offset: calc(5vh + var(--safe-bottom));
-      --deck-footer-space: calc(var(--deck-nav-size) + var(--deck-footer-offset));
+      /* Nav chrome hidden — reclaim space; restore formula with stage-footer */
+      --deck-footer-space: 0px;
       --ink: #0d0f10;
       --paper: #ffffff;
       --paper-2: #f5f7f5;

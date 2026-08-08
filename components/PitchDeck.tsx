@@ -110,7 +110,7 @@ export function PitchDeck() {
       }
       if (e.key === "Home") showSlide(0);
       if (e.key === "End") showSlide(TOTAL - 1);
-      if (e.key === "o" || e.key === "O") toggleOverview();
+      if (e.key === "o" || e.key === "O") goTo(1);
       if (e.key === "f" || e.key === "F") {
         if (!document.fullscreenElement) {
           void document.documentElement.requestFullscreen();
@@ -123,7 +123,7 @@ export function PitchDeck() {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [next, prev, showSlide, toggleOverview]);
+  }, [next, prev, showSlide, goTo]);
 
   useEffect(() => {
     const active = document.querySelector(".slide.active");
@@ -166,10 +166,10 @@ export function PitchDeck() {
     return () => demoTimers.current.forEach(clearTimeout);
   }, []);
 
-  const progressPct = ((current + 1) / TOTAL) * 100;
-  const slideNum = String(current + 1).padStart(2, "0");
-  const totalNum = String(TOTAL).padStart(2, "0");
-  const slideLabel = `${slideNum} / ${totalNum} — ${SLIDE_TITLES[current]}`;
+  // const progressPct = ((current + 1) / TOTAL) * 100;
+  // const slideNum = String(current + 1).padStart(2, "0");
+  // const totalNum = String(TOTAL).padStart(2, "0");
+  // const slideLabel = `${slideNum} / ${totalNum} — ${SLIDE_TITLES[current]}`;
 
   return (
     <>
@@ -185,7 +185,7 @@ export function PitchDeck() {
         <span>22 MAY 2026</span>
       </div> */}
 
-      <div className="chrome-bottom">
+      {/* <div className="chrome-bottom">
         <span>
           <span className="slide-label-full">{slideLabel}</span>
           <span className="slide-label-short">
@@ -196,7 +196,7 @@ export function PitchDeck() {
           <span style={{ width: `${progressPct}%` }} />
         </div>
         <span>FOR REVIEW</span>
-      </div>
+      </div> */}
 
       <div className="deck-frame">
         <div className="stage" id="stage">
@@ -213,10 +213,11 @@ export function PitchDeck() {
           />
         </div>
 
+        {/* Keyboard/swipe listeners stay active; UI chrome hidden.
         <div className="stage-footer">
           <div className="hint">
             <kbd>←</kbd>
-            <kbd>→</kbd> navigate · <kbd>O</kbd> overview · <kbd>F</kbd> fullscreen
+            <kbd>→</kbd> navigate · <kbd>O</kbd> contents · <kbd>F</kbd> fullscreen
           </div>
 
           <div className="nav">
@@ -231,6 +232,7 @@ export function PitchDeck() {
             </button>
           </div>
         </div>
+        */}
       </div>
 
       <div className={`overview${overviewOpen ? " show" : ""}`} id="overview">
